@@ -1,36 +1,27 @@
-import { useState } from "react";
+import { useNavigate } from "react-router";
 import { Box, Button, FormControl, FormLabel, Input, Textarea, Stack, Heading, } from "@chakra-ui/react";
+import thingsService from "../../services/thingsService.js";
 
 export default function AddThings() {
-    const [formData, setFormData] = useState({
-        title: "",
-        location: "",
-        description: "",
-        imageUrl: "",
-      });
     
+    const navigate = useNavigate();
 
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({
-          ...prev,
-          [name]: value,
-        }));
-      };
-    
+    const submitAction = async (formData) => {
+        const thingData = Object.fromEntries(formData);
+        // console.log(thingData);
+        
+        await thingsService.addThing(thingData);
 
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formData);
-      };
-    
+        navigate('/catalog');
+    }
+
       return (
         <Box px={6} py={10} bg="gray.100">
           <Heading as="h2" size="lg" mb={4} textAlign="center" color="teal.500">
             Add New Thing
           </Heading>
     
-          <form onSubmit={handleSubmit}>
+          <form action={submitAction}>
             <Stack spacing={4} maxWidth="500px" margin="0 auto">
 
               <FormControl isRequired>
@@ -38,8 +29,6 @@ export default function AddThings() {
                 <Input
                   id="title"
                   name="title"
-                  value={formData.title}
-                  onChange={handleChange}
                   placeholder="Enter title"
                 />
               </FormControl>
@@ -50,8 +39,6 @@ export default function AddThings() {
                 <Input
                   id="location"
                   name="location"
-                  value={formData.location}
-                  onChange={handleChange}
                   placeholder="Enter location"
                 />
               </FormControl>
@@ -62,8 +49,6 @@ export default function AddThings() {
                 <Textarea
                   id="description"
                   name="description"
-                  value={formData.description}
-                  onChange={handleChange}
                   placeholder="Enter description"
                   rows={4}
                 />
@@ -75,8 +60,6 @@ export default function AddThings() {
                 <Input
                   id="imageUrl"
                   name="imageUrl"
-                  value={formData.imageUrl}
-                  onChange={handleChange}
                   placeholder="Enter image URL"
                 />
               </FormControl>
