@@ -9,10 +9,7 @@ import { Box, SimpleGrid, Spinner, Flex} from '@chakra-ui/react'
 export default function Catalog() {
 
     const [loading, setLoading] = useState(true);
-    
     const [things, setThings] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedPurpose, setSelectedPurpose] = useState(null);
 
     const location = useLocation();
 
@@ -21,10 +18,7 @@ export default function Catalog() {
         const params = new URLSearchParams(location.search);
         const category = params.get('category');
         const purpose = params.get('purpose');
-       
-        setSelectedCategory(category || '');
-        setSelectedPurpose(purpose || '');
-    
+
         const fetchThings = async () => {
           setLoading(true);
     
@@ -49,8 +43,6 @@ export default function Catalog() {
 
                     <Box width={{ base: "100%", md: "250px" }} mb={{ base: 4, md: 0 }}>
                     <CategorySidebar 
-                    setSelectedCategory={setSelectedCategory}
-                    setSelectedPurpose={setSelectedPurpose}
                     />
                     </Box>
 

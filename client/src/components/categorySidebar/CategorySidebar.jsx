@@ -4,26 +4,40 @@ import { useLocation, useNavigate } from "react-router";
 
 import { Box, VStack, Checkbox, Text } from "@chakra-ui/react";
 
-export default function CategorySidebar({
-    setSelectedCategory,
-    setSelectedPurpose
-}) {
+export default function CategorySidebar() {
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    const categoryChangeHandler = (category) => {
-        setSelectedCategory(category);
-        const params = new URLSearchParams(location.search);
-        params.set('category', category); // Set the selected category in URL
-        navigate(`?${params.toString()}`);
+    const params = new URLSearchParams(location.search);
+    const selectedCategory = params.get('category');
+    const selectedPurpose = params.get('purpose');
+
+    const categoryChangeHandler = (e) => {
+      const category = e.target.value;
+      const checked = e.target.checked;
+
+      if (checked) {
+        navigate(`?category=${category}`);
+      } else {
+        const params = new URLSearchParams(window.location.search);
+        params.delete("category"); 
+        navigate({ search: params.toString() }); 
+      }
+
       };
 
-    const purposeChangeHandler = (purpose) => {
-        setSelectedPurpose(purpose);
+    const purposeChangeHandler = (e) => {
+      const purpose = e.target.value;
+      const checked = e.target.checked;
+  
+      if (checked) {
+        navigate(`?purpose=${purpose}`);
+      } else { 
         const params = new URLSearchParams(location.search);
-        params.set('purpose', purpose); // Set the selected purpose in URL
-        navigate(`?${params.toString()}`);
+        params.delete("purpose");  
+        navigate({ search: params.toString() });
+      }
       };
 
    return (
@@ -34,7 +48,8 @@ export default function CategorySidebar({
           <Checkbox
             key={category.name}
             value={category.name}
-            onChange={(e) => categoryChangeHandler(e.target.value)}
+            defaultChecked={selectedCategory === category.name}
+            onChange={categoryChangeHandler}
           >
             {category.name}
           </Checkbox>
@@ -45,7 +60,8 @@ export default function CategorySidebar({
           <Checkbox
             key={purpose.name}
             value={purpose.name}
-            onChange={(e) => purposeChangeHandler(e.target.value)}
+            defaultChecked={selectedPurpose === purpose.name}
+            onChange={purposeChangeHandler}
           >
             {purpose.name}
           </Checkbox>
