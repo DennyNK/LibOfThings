@@ -1,4 +1,7 @@
-import { Box, Heading, Text} from "@chakra-ui/react";
+import { Box, Heading, Text, SimpleGrid, Image, VStack, Link} from "@chakra-ui/react";
+import { Link as RouterLink } from 'react-router';
+import { categories } from "../../data/categories.js";
+import { purposes } from "../../data/purpose.js";
 
 export default function Home() {
 
@@ -20,6 +23,48 @@ export default function Home() {
               How it works
             </Heading>
           </Box>
+
+          <Heading as="h2" size="lg" mb={4} textAlign="center" color="teal.500">
+        Browse by Category
+      </Heading>
+      <SimpleGrid columns={{ base: 2, md: 5 }} spacing={6} mb={10}>
+        {categories.map((category) => (
+          <Link as={RouterLink} to={category.link} key={category.name} _hover={{ textDecoration: "none" }}>
+            <VStack
+              bg="white"
+              p={4}
+              borderRadius="lg"
+              boxShadow="md"
+              _hover={{ transform: "scale(1.05)", transition: "0.3s" }}
+            >
+              {/* <Image src={category.image} alt={category.name} boxSize="80px" /> */}
+              <Text fontSize="md" fontWeight="bold" color="gray.700">{category.name}</Text>
+            </VStack>
+          </Link>
+        ))}
+      </SimpleGrid>
+
+      {/* Purposes Section */}
+      <Heading as="h2" size="lg" mb={4} textAlign="center" color="teal.500">
+        Browse by Purpose
+      </Heading>
+      <SimpleGrid columns={{ base: 2, md: 2 }} spacing={6}>
+        {purposes.map((purpose) => (
+          <Link as={RouterLink} to={purpose.link} key={purpose.name} _hover={{ textDecoration: "none" }}>
+            <VStack
+              bg="white"
+              p={4}
+              borderRadius="lg"
+              boxShadow="md"
+              _hover={{ transform: "scale(1.05)", transition: "0.3s" }}
+            >
+              {/* <Image src={purpose.image} alt={purpose.name} boxSize="80px" /> */}
+              <Text fontSize="md" fontWeight="bold" color="gray.700">{purpose.name}</Text>
+            </VStack>
+          </Link>
+        ))}
+      </SimpleGrid>
+
         </Box>
       );
 }
