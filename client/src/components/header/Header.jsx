@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Spacer } from "@chakra-ui/react";
 
-const Header = () => {
+export default function Header() {
   return (
     <Box bg="peach.500" px={6} py={4} color="white">
       <Flex align="center">
@@ -54,4 +54,3 @@ const Header = () => {
   );
 };
 
-export default Header;
