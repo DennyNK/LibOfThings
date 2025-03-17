@@ -23,9 +23,10 @@ export default {
 
         const things = Object.values(result);
 
-        return things.filter(thing => {
-            return (category ? thing.category === category : true) &&
-                   (purpose ? thing.purpose === purpose : true);
+        return things.filter((thing) => {
+            const categoryMatch = category ? thing.category === category : true;
+            const purposeMatch = purpose ? thing.purpose === purpose : true;
+            return categoryMatch && purposeMatch
           });
         }
     

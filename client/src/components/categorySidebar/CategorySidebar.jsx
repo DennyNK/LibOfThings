@@ -17,27 +17,31 @@ export default function CategorySidebar() {
       const category = e.target.value;
       const checked = e.target.checked;
 
+      const params = new URLSearchParams(location.search);
+
       if (checked) {
-        navigate(`?category=${category}`);
+        params.set("category", category)
       } else {
-        const params = new URLSearchParams(window.location.search);
         params.delete("category"); 
-        navigate({ search: params.toString() }); 
       }
+
+      navigate({ search: params.toString() });
 
       };
 
     const purposeChangeHandler = (e) => {
       const purpose = e.target.value;
       const checked = e.target.checked;
+
+      const params = new URLSearchParams(location.search);
   
       if (checked) {
-        navigate(`?purpose=${purpose}`);
-      } else { 
-        const params = new URLSearchParams(location.search);
-        params.delete("purpose");  
-        navigate({ search: params.toString() });
+        params.set("purpose", purpose);
+      } else {
+        params.delete("purpose");
       }
+  
+      navigate({ search: params.toString() });
       };
 
    return (
