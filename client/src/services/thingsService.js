@@ -19,9 +19,11 @@ export default {
 
     async thingsByFilter(category, purpose){
 
-        const result = await request.get(baseUrl)
+        const result = await request.get(baseUrl)  
 
         const things = Object.values(result);
+
+        
 
         return things.filter((thing) => {
             const categoryMatch = category ? thing.category === category : true;
