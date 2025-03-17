@@ -2,7 +2,7 @@ import { categories } from "../../data/categories.js";
 import { purposes } from "../../data/purpose.js";
 import { useLocation, useNavigate } from "react-router";
 
-import { Box, VStack, Checkbox, Text } from "@chakra-ui/react";
+import { Box, VStack, Text, RadioGroup, Radio } from "@chakra-ui/react";
 
 export default function CategorySidebar() {
 
@@ -13,14 +13,11 @@ export default function CategorySidebar() {
     const selectedCategory = params.get('category');
     const selectedPurpose = params.get('purpose');
 
-    const categoryChangeHandler = (e) => {
-      const category = e.target.value;
-      const checked = e.target.checked;
-
+    const categoryChangeHandler = (value) => {
       const params = new URLSearchParams(location.search);
 
-      if (checked) {
-        params.set("category", category)
+      if (value) {
+        params.set("category", value)
       } else {
         params.delete("category"); 
       }
@@ -29,15 +26,11 @@ export default function CategorySidebar() {
 
       };
 
-    const purposeChangeHandler = (e) => {
-      const purpose = e.target.value;
-      const checked = e.target.checked;
-
+    const purposeChangeHandler = (value) => {
       const params = new URLSearchParams(location.search);
-  
-      if (checked) {
-        params.set("purpose", purpose);
-      } else {
+        if (value) {
+            params.set("purpose", value);
+        }  else {
         params.delete("purpose");
       }
   
@@ -48,28 +41,29 @@ export default function CategorySidebar() {
        <Box width={{ base: "full", md: "250px" }} bg="gray.100" p={4} boxShadow="md">
       <VStack align="start" spacing={4}>
         <Text fontSize="xl" fontWeight="bold" mb={2}>Categories</Text>
-        {categories.map((category) => (
-          <Checkbox
-            key={category.name}
-            value={category.name}
-            defaultChecked={selectedCategory === category.name}
-            onChange={categoryChangeHandler}
-          >
-            {category.name}
-          </Checkbox>
-        ))}
+
+        <RadioGroup onChange={categoryChangeHandler} value={selectedCategory}>
+                    {categories.map((category) => (
+                        <Radio
+                            key={category.name}
+                            value={category.name}
+                        >
+                            {category.name}
+                        </Radio>
+                    ))}
+                </RadioGroup>
 
         <Text fontSize="xl" fontWeight="bold" mt={6} mb={2}>Purpose</Text>
-        {purposes.map((purpose) => (
-          <Checkbox
-            key={purpose.name}
-            value={purpose.name}
-            defaultChecked={selectedPurpose === purpose.name}
-            onChange={purposeChangeHandler}
-          >
-            {purpose.name}
-          </Checkbox>
-        ))}
+        <RadioGroup onChange={purposeChangeHandler} value={selectedPurpose}>
+                    {purposes.map((purpose) => (
+                        <Radio
+                            key={purpose.name}
+                            value={purpose.name}
+                        >
+                            {purpose.name}
+                        </Radio>
+                    ))}
+                </RadioGroup>
       </VStack>
     </Box>
    );
