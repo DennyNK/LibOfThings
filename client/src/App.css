@@ -1,16 +1,24 @@
-
+/* Ensure body takes up the full height of the viewport */
 body {
   margin: 0;
   padding: 0;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Main wrapper for the app */
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  height: 100%; /* Ensure full height */
 }
 
+/* The content area should fill remaining space between header and footer */
 .app-content {
-  flex: 1;
+  flex-grow: 1; /* This makes sure content area grows to fill available space */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Ensures content starts at the top */
 }
