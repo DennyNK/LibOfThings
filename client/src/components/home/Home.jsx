@@ -1,4 +1,4 @@
-import { Box, Heading, Text, SimpleGrid, Image, VStack, Link} from "@chakra-ui/react";
+import { Box, Heading, Text, SimpleGrid, VStack, Link} from "@chakra-ui/react";
 import { Link as RouterLink } from 'react-router';
 import { categories } from "../../data/categories.js";
 import { purposes } from "../../data/purpose.js";
