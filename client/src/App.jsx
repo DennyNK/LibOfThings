@@ -7,6 +7,7 @@ import Home from './components/home/Home.jsx'
 import About from './components/about/About.jsx'
 import Login from './components/login/Login.jsx'
 import Register from './components/register/register.jsx'
+import AddThings from './components/addThings/AddThings.jsx'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
       <Routes>
       <Route path='/' element={<Home/>}></Route>
       <Route path='/about' element={<About/>}></Route>
+      <Route path='/add' element={<AddThings/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/register' element={<Register/>}></Route>
 

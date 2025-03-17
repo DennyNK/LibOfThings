@@ -46,6 +46,7 @@ export default function Header() {
           </Button>
           </Link>
 
+          <Link to='/add'>
           <Button
             bg="purple.500"
             color="white"
@@ -54,6 +55,7 @@ export default function Header() {
           >
             Add things
           </Button>
+          </Link>
         </Flex>
 
 
