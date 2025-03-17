@@ -15,7 +15,7 @@ export default function CatalogThing({
                                     <Heading size="md" color="teal.600">{title}</Heading>
                                     <Text>{location}</Text>
                                     <Button colorScheme="teal" size="sm">
-                                      Learn More
+                                      Details
                                     </Button>
                                   </Stack>
                                 </CardBody>
