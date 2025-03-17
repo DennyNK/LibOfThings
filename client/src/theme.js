@@ -1,6 +1,10 @@
 import { extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
+    fonts: {
+        heading: 'Poppins, sans-serif', // For headings
+        body: 'Poppins, sans-serif',    // For body text
+      },
   colors: {
     peach: {
       500: '#FFDAB9', // Peach color
