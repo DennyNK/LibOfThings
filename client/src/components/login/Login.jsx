@@ -56,11 +56,11 @@ export default function Login() {
           </Button>
         </Box>
   
-        {/* Link to Register Page */}
+
         <Text fontSize="sm">
           No account?{' '}
           <Link color="teal.500" onClick={() => navigate('/register')}>
-            Click here
+            Register here
           </Link>
         </Text>
       </Box>
