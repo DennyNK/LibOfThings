@@ -2,7 +2,7 @@ import { Box, Button, Flex, Spacer } from "@chakra-ui/react";
 
 export default function Header() {
   return (
-    <Box bg="peach.500" px={6} py={4} color="purple.400">
+    <Box bg="peach.300" px={6} py={4} color="purple.400">
       <Flex align="center">
 
         <Box fontSize="xl" fontWeight="bold">
