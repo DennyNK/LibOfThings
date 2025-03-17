@@ -11,17 +11,17 @@ export default function CategorySidebar() {
   const location = useLocation();
 
   const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedPurpose, setSelectedPurpose] = useState(null);
+  const [selectedPurpose, setSelectedPurpose] = useState(null);
 
-    useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        const category = params.get('category');
-        const purpose = params.get('purpose');
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const category = params.get('category');
+    const purpose = params.get('purpose');
 
 
-        setSelectedCategory(category);
-        setSelectedPurpose(purpose);
-    }, [location.search]);
+    setSelectedCategory(category || '');
+    setSelectedPurpose(purpose || '');
+  }, [location.search]);
 
   const categoryChangeHandler = (value) => {
     setSelectedCategory(value)
@@ -51,8 +51,8 @@ export default function CategorySidebar() {
   const clearFilterHandler = () => {
     const params = new URLSearchParams();
 
-    setSelectedCategory(null);
-        setSelectedPurpose(null);
+    setSelectedCategory('');
+    setSelectedPurpose('');
 
     navigate(`/catalog?${params.toString()}`, { replace: true });
   }
