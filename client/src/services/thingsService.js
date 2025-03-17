@@ -18,6 +18,7 @@ export default {
     },
 
     async thingsByFilter(category, purpose){
+
         const result = await request.get(baseUrl)
 
         const things = Object.values(result);

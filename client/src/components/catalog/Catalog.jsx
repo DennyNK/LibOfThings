@@ -1,36 +1,46 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 import thingsService from '../../services/thingsService.js';
 import CatalogThing from './catalog-thing-temp/CatalogThing.jsx';
+import CategorySidebar from '../categorySidebar/categorySidebar.jsx';
 
 import { Box, SimpleGrid, Spinner, Flex} from '@chakra-ui/react'
-import CategorySidebar from '../categorySidebar/categorySidebar.jsx';
 
 export default function Catalog() {
 
     const [loading, setLoading] = useState(true);
     
     const [things, setThings] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [selectedPurpose, setSelectedPurpose] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedPurpose, setSelectedPurpose] = useState(null);
 
+    const location = useLocation();
 
-    useEffect( () => {
+      useEffect(() => {
 
+        const params = new URLSearchParams(location.search);
+        const category = params.get('category');
+        const purpose = params.get('purpose');
+       
+        setSelectedCategory(category || '');
+        setSelectedPurpose(purpose || '');
+    
         const fetchThings = async () => {
-            setLoading(true);
-
-            try{
-                const result = await thingsService.thingsByFilter(selectedCategory, selectedPurpose);
-                setThings(result);
-            } catch (err) {
-                console.error("Error fetching filtered things:", err);
-            } finally{
-                setLoading(false);
-            }
+          setLoading(true);
+    
+          try {
+            const result = await thingsService.thingsByFilter(category, purpose);
+            setThings(result);
+          } catch (err) {
+            console.error('Error fetching filtered things:', err);
+          } finally {
+            setLoading(false);
+          }
         };
+    
         fetchThings();
-        
-    }, [selectedCategory, selectedPurpose])
+      }, [location.search]); 
+
 
    return (
             
