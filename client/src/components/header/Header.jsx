@@ -46,6 +46,17 @@ export default function Header() {
           </Button>
           </Link>
 
+          <Link to='/search'>
+          <Button
+            bg="purple.500"
+            color="white"
+            _hover={{ bg: "purple.400" }}
+            variant="ghost"
+          >
+            Search
+          </Button>
+          </Link>
+
           <Link to='/add'>
           <Button
             bg="purple.500"
