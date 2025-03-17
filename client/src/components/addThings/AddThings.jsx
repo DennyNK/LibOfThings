@@ -110,7 +110,7 @@ export default function AddThings() {
             <FormLabel htmlFor="purpose">Purpose</FormLabel>
             <select name="purpose" value={formData.purpose} onChange={changeHandler}>
               <option value="">--Choose--</option>
-              <option value="Borrowing">Lending</option>
+              <option value="Borrowing">For borrowing</option>
               <option value="Giveaway">Giveaway</option>
             </select>
           </FormControl>
