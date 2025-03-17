@@ -4,60 +4,69 @@ import thingsService from '../../services/thingsService.js';
 import CatalogThing from './catalog-thing-temp/CatalogThing.jsx';
 import CategorySidebar from '../categorySidebar/categorySidebar.jsx';
 
-import { Box, SimpleGrid, Spinner, Flex} from '@chakra-ui/react'
+import { Box, SimpleGrid, Spinner, Flex, Text } from '@chakra-ui/react'
 
 export default function Catalog() {
 
-    const [loading, setLoading] = useState(true);
-    const [things, setThings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [things, setThings] = useState([]);
+  const [noResult, setNoResult] = useState(false);
 
-    const location = useLocation();
+  const location = useLocation();
 
-      useEffect(() => {
+  useEffect(() => {
 
-        const params = new URLSearchParams(location.search);
-        const category = params.get('category');
-        const purpose = params.get('purpose');
+    const params = new URLSearchParams(location.search);
+    const category = params.get('category');
+    const purpose = params.get('purpose');
 
-        const fetchThings = async () => {
-          setLoading(true);
-    
-          try {
-            const result = await thingsService.thingsByFilter(category, purpose);
-            setThings(result);
-          } catch (err) {
-            console.error('Error fetching filtered things:', err);
-          } finally {
-            setLoading(false);
-          }
-        };
-    
-        fetchThings();
-      }, [location.search]); 
+    const fetchThings = async () => {
+      setLoading(true);
+      setNoResult(false);
+
+      try {
+        const result = await thingsService.thingsByFilter(category, purpose);
+        setThings(result);
+        if (result.length === 0) {
+          setNoResult(true);
+        }
+      } catch (err) {
+        console.error('Error fetching filtered things:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchThings();
+  }, [location.search]);
 
 
-   return (
-            
-                <Box px={6} py={10} bg="gray.100">
-                    <Flex direction={{ base: "column", md: "row" }} justify="space-between">
+  return (
 
-                    <Box width={{ base: "100%", md: "250px" }} mb={{ base: 4, md: 0 }}>
-                    <CategorySidebar 
-                    />
-                    </Box>
+    <Box px={6} py={10} bg="gray.100">
+      <Flex direction={{ base: "column", md: "row" }} justify="space-between">
 
-                    {loading
-                    ? ( <Box display="flex" justifyContent="center" alignItems="center" height="100px">
-                        <Spinner size="xl" color="teal.500" />
-                      </Box>)
-                    : (<SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+        <Box width={{ base: "100%", md: "250px" }} mb={{ base: 4, md: 0 }}>
+          <CategorySidebar
+          />
+        </Box>
 
-                        {things.map(thing => (<CatalogThing key={thing._id} {...thing}/>))}
-   
-                      </SimpleGrid>
-                      )}
+        {loading
+          ? (<Box display="flex" justifyContent="center" alignItems="center" height="100px">
+            <Spinner size="xl" color="teal.500" />
+          </Box>)
+          : noResult
+              ? (<Box display="flex" justifyContent="center" alignItems="center" height="100px" width="100%">
+                <Text fontSize="xl" color="gray.500">No results found</Text>
+              </Box>)
+              : (<SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
 
-                    </Flex>
-                    </Box>
-            );
+                {things.map(thing => (<CatalogThing key={thing._id} {...thing} />))}
+
+              </SimpleGrid>
+              )}
+
+      </Flex>
+    </Box>
+  );
 }
