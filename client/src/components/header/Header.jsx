@@ -37,6 +37,14 @@ export default function Header() {
           >
             Catalog
           </Button>
+          <Button
+            bg="purple.500"
+            color="white"
+            _hover={{ bg: "purple.400" }}
+            variant="ghost"
+          >
+            Add things
+          </Button>
         </Flex>
 
 
@@ -48,6 +56,14 @@ export default function Header() {
           variant="solid"
         >
           Login
+        </Button>
+        <Button
+          bg="coral.500"
+          color="white"
+          _hover={{ bg: "coral.400" }}
+          variant="solid"
+        >
+          My profile
         </Button>
       </Flex>
     </Box>
