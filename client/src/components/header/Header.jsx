@@ -71,7 +71,7 @@ export default function Header() {
 
         <Link to='/register'>
         <Button
-          bg="coral.500"
+          bg="coral.800"
           color="white"
           _hover={{ bg: "coral.400" }}
           variant="solid"
