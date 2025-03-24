@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext.js";
-import request from "../../utils/request.js";
+import request from "../utils/request.js";
+
 
 export default function useAuth() {
     const authData = useContext(UserContext);
