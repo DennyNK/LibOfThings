@@ -1,11 +1,10 @@
 import { Box, Button, Flex, Spacer } from "@chakra-ui/react";
-import { useContext } from "react";
 import { Link } from "react-router";
-import { UserContext } from "../../contexts/UserContext.js";
+import useAuth from "../../hooks/useAuth.js";
 
 export default function Header() {
 
-  const { email } = useContext(UserContext);
+  const { isAuthenticated } = useAuth();
 
   return (
     <Box bg="peach.300" px={6} py={4} color="purple.400">
@@ -62,7 +61,7 @@ export default function Header() {
           </Button>
           </Link>
 
-          {email && (<Link to='/add'>
+          {isAuthenticated && (<Link to='/add'>
             <Button
               bg="purple.500"
               color="white"
@@ -75,7 +74,7 @@ export default function Header() {
 
             </Flex>
           
-          {email 
+          {isAuthenticated 
           ? (
           <div id="user">
 
