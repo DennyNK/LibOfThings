@@ -10,20 +10,15 @@ import Register from './components/register/register.jsx'
 import AddThings from './components/addThings/AddThings.jsx'
 import Catalog from './components/catalog/Catalog.jsx'
 import Search from './components/search/Search.jsx'
-import usePersistedState from './hooks/usePersistedState.js'
-import { UserContext } from './contexts/UserContext.js'
+import { UserProvider } from './providers/UserProvider.jsx'
+import Logout from './components/logout/Logout.jsx'
+import AuthGuard from './components/guards/AuthGuard.jsx'
 
 
 function App() {
 
-  const [authData, setAuthData] = usePersistedState({});
-
-  const userLoginHandler = (resultData) => {
-    setAuthData(resultData);
-  }
-
   return (
-    <UserContext.Provider value={{...authData, userLoginHandler}}>
+    <UserProvider>
     <div className="app-container">
     <Header />
     
@@ -34,7 +29,10 @@ function App() {
       <Route path='/about' element={<About/>}></Route>
       <Route path='/catalog' element={<Catalog/>}></Route>
       <Route path='/search' element={<Search/>}></Route>
-      <Route path='/add' element={<AddThings/>}></Route>
+      <Route element={<AuthGuard />}>
+        <Route path='/add' element={<AddThings/>}></Route>
+        <Route path='/logout' element={<Logout />} />
+      </Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/register' element={<Register/>}></Route>
 
@@ -45,7 +43,7 @@ function App() {
 
     <Footer />
   </div>
-  </UserContext.Provider>
+  </UserProvider>
   )
 }
 
