@@ -1,8 +1,12 @@
 import { Box, Button, Flex, Spacer } from "@chakra-ui/react";
-import { useContext } from "react";
 import { Link } from "react-router";
+import useAuth from "../../hooks/useAuth.js";
 
 export default function Header() {
+
+  const { isAuthenticated } = useAuth();
+
+
   return (
     <Box bg="peach.300" px={6} py={4} color="purple.400">
       <Flex align="center" justify="space-between">
@@ -11,7 +15,7 @@ export default function Header() {
           Library of things
         </Box>
 
-        {/* <Spacer /> */}
+        <Spacer />
 
 
         <Flex gap={4} align="center" justify="center" flex="1">
@@ -58,7 +62,7 @@ export default function Header() {
           </Button>
           </Link>
 
-          <Link to='/add'>
+         {isAuthenticated && ( <Link to='/add'>
           <Button
             bg="purple.500"
             color="white"
@@ -67,12 +71,41 @@ export default function Header() {
           >
             Add things
           </Button>
-          </Link>
+          </Link>)}
         </Flex>
 
 
           <Spacer />
-            <Link to='/login'>
+           {isAuthenticated
+           ? (
+            <div id="guest">
+                <Link to='/profile'>
+            <Button
+              bg="coral.800"
+              color="white"
+              _hover={{ bg: "coral.400" }}
+              variant="solid"
+            >
+              My profile
+            </Button>
+            </Link>
+
+              <Link to='/logout'>
+            <Button
+              bg="coral.500"
+              color="white"
+              _hover={{ bg: "coral.400" }}
+              variant="solid"
+            >
+              Logout
+            </Button>
+            </Link>
+  
+            </div>
+           )
+           : (
+            <div id="user">
+              <Link to='/login'>
             <Button
               bg="coral.500"
               color="white"
@@ -93,15 +126,10 @@ export default function Header() {
               Join
             </Button>
             </Link>
+            </div>
+           )
 
-            </div>)
-          }
-
-          
-      
-
-
-       
+            }
 
         
       </Flex>

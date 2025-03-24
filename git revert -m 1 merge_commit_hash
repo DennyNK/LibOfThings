@@ -1,0 +1,52 @@
+[33mbbf6afe[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge branch 'main' of https://github.com/DennyNK/LibOfThings
+[33m75e5c56[m use the useAuth hook for button show logic
+[33m2fc071c[m add logout logic, route guard, user/guest logic for buttons
+[33m840310b[m Merge branch 'main' of https://github.com/DennyNK/LibOfThings
+[33mf0e04ce[m add logout logic
+[33m5a83ce6[m add logout logic
+[33m23826fe[m create login functionality
+[33me26f35a[m add basic search component
+[33m8126991[m defining fetchThings outsife the useEffect hook
+[33m6db7083[m passing empty strings for category and purpose
+[33m4aabd4c[m add state for filter selection
+[33m5a5dfd8[m change checkboxes to radiogroup
+[33m9ec8787[m show message when no results are found
+[33m974ad25[m search by both category and purpose
+[33m6dade15[m Changing purpose lending to for borrowing
+[33ma08d46f[m change filter result based on checkbox checked
+[33mfd3f7a5[m filter by category or purpose
+[33m056b510[m add category and purpose sidebar
+[33m4c837fe[m Update Home.jsx
+[33m1f5755c[m adding categories and purpose to home component
+[33m8768cb7[m make the add form controlled
+[33mc5d5761[m add categories and purpose to form
+[33md6ebc77[m remove latest items from home page
+[33m573e991[m Update eslint.config.js
+[33maf9b88a[m install prop types
+[33m03b69d7[m add spinner
+[33m61b1fa6[m add form action when adding things
+[33m03675b6[m add catalog component
+[33mf7c5021[m Delete vite.svg
+[33md851c8a[m creating services to add things
+[33mc430ace[m add util to handle requests
+[33mcee88cc[m add server
+[33mc8f5df0[m add new thing comp added
+[33mdea53ee[m changing color of the join button
+[33m8d0c20e[m add register component
+[33m3739e00[m adding poppins font
+[33mba31702[m linking buttons to components
+[33m4664f82[m adding new shared in the theme
+[33m47fc232[m add about and login components
+[33m947da19[m adding buttons
+[33m7540e77[m adding some styling
+[33mced70c5[m adding home page comp
+[33ma1252aa[m adapting design of buttons in header and footer desing
+[33m0037a74[m adding header, footer and styles for them
+[33m539a48a[m add poppins font
+[33m058789f[m create header design
+[33me8a79d3[m install react router
+[33m6e85bdd[m setting up the chakra ui
+[33mb124689[m install chakra ui library
+[33m1d4f84c[m install dependencies
+[33mdc0b709[m create vite project
+[33m1bb2f6b[m Initial commit
