@@ -13,7 +13,6 @@ export default function Search() {
         aria-label="Search"
         />
         
-        
 
        </Flex>
    );
