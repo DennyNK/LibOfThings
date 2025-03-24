@@ -1,16 +1,30 @@
 import { Box, FormControl, FormLabel, Input, Button, Text, Link, } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
+import { useLogin } from '../../api/authApi.js';
+import { useActionState, useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext.js';
 
 export default function Login() {
 
     const navigate = useNavigate();
+    const { login } = useLogin();
+    const { userLoginHandler } = useContext(UserContext)
 
-    // Function to handle login (you can add your form submission logic here)
-    const handleLogin = (e) => {
-      e.preventDefault();
-      // Here you can add your login logic (e.g., API request)
-      console.log('Logged in');
+
+    const loginHandler = async (_, formData) => {
+        const values = Object.fromEntries(formData);
+
+        const authData = await login(values.email, values.password)
+
+        userLoginHandler(authData);
+
+        navigate('/catalog');
+        
+        return values;
     };
+
+    // eslint-disable-next-line no-unused-vars
+    const [_, loginAction, isPending] = useActionState(loginHandler, {email: '', password: ''});
 
    return (
    
@@ -30,27 +44,29 @@ export default function Login() {
           Login
         </Text>
   
-        {/* Login Form */}
-        <Box as="form" onSubmit={handleLogin} width="100%">
-          {/* Username Field */}
+
+        <Box as="form" action={loginAction} width="100%">
+
           <FormControl mb={4} isRequired>
-            <FormLabel htmlFor="username">Username</FormLabel>
-            <Input id="username" placeholder="Enter your username" />
+            <FormLabel htmlFor="email">Email</FormLabel>
+            <Input id="email" type="email" name="email" placeholder="Enter your email" />
           </FormControl>
   
-          {/* Password Field */}
+
           <FormControl mb={6} isRequired>
             <FormLabel htmlFor="password">Password</FormLabel>
-            <Input id="password" type="password" placeholder="Enter your password" />
+            <Input id="password" type="password" name="password" placeholder="Enter your password" />
           </FormControl>
   
-          {/* Login Button */}
+
           <Button
             type="submit"
             colorScheme="teal"
             width="full"
             mb={4}
             _hover={{ bg: 'teal.600' }}
+            className="btn submit" 
+            disabled={isPending}
           >
             Login
           </Button>

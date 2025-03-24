@@ -1,4 +1,4 @@
-  import { Routes, Route } from 'react-router'
+import { Routes, Route } from 'react-router'
 
 import './App.css'
 import Footer from './components/footer/Footer.jsx'
@@ -9,11 +9,21 @@ import Login from './components/login/Login.jsx'
 import Register from './components/register/register.jsx'
 import AddThings from './components/addThings/AddThings.jsx'
 import Catalog from './components/catalog/Catalog.jsx'
-import Search from './components/register/search/Search.jsx'
+import Search from './components/search/Search.jsx'
+import usePersistedState from './hooks/usePersistedState.js'
+import { UserContext } from './contexts/UserContext.js'
+
 
 function App() {
 
+  const [authData, setAuthData] = usePersistedState({});
+
+  const userLoginHandler = (resultData) => {
+    setAuthData(resultData);
+  }
+
   return (
+    <UserContext.Provider value={{...authData, userLoginHandler}}>
     <div className="app-container">
     <Header />
     
@@ -35,6 +45,7 @@ function App() {
 
     <Footer />
   </div>
+  </UserContext.Provider>
   )
 }
 
