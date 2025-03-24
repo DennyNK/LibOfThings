@@ -1,11 +1,8 @@
 import { Box, Button, Flex, Spacer } from "@chakra-ui/react";
+import { useContext } from "react";
 import { Link } from "react-router";
-import useAuth from "../../hooks/useAuth.js";
 
 export default function Header() {
-
-  const { isAuthenticated } = useAuth();
-
   return (
     <Box bg="peach.300" px={6} py={4} color="purple.400">
       <Flex align="center" justify="space-between">
@@ -61,47 +58,18 @@ export default function Header() {
           </Button>
           </Link>
 
-          {isAuthenticated && (<Link to='/add'>
-            <Button
-              bg="purple.500"
-              color="white"
-              _hover={{ bg: "purple.400" }}
-              variant="ghost"
-            >
-              Add things
-            </Button>
-            </Link>)}
+          <Link to='/add'>
+          <Button
+            bg="purple.500"
+            color="white"
+            _hover={{ bg: "purple.400" }}
+            variant="ghost"
+          >
+            Add things
+          </Button>
+          </Link>
+        </Flex>
 
-            </Flex>
-          
-          {isAuthenticated 
-          ? (
-          <div id="user">
-
-            <Link to='/logout'>
-            <Button
-              bg="coral.500"
-              color="white"
-              _hover={{ bg: "coral.400" }}
-              variant="solid"
-            >
-              Logout
-            </Button>
-            </Link>
-            
-
-              <Button
-                bg="coral.800"
-                color="white"
-                _hover={{ bg: "coral.400" }}
-                variant="solid"
-              >
-                My profile
-              </Button>
-
-            </div>)
-          : ( 
-          <div id="guest">
 
           <Spacer />
             <Link to='/login'>
