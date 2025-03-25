@@ -1,43 +1,34 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import thingsService from '../../services/thingsService.js';
 import CatalogThing from './catalog-thing-temp/CatalogThing.jsx';
 import CategorySidebar from '../categorySidebar/categorySidebar.jsx';
 
 import { Box, SimpleGrid, Spinner, Flex, Text } from '@chakra-ui/react'
+import { useFetchThings, useThingsByFilter } from '../../api/thingsApi.js';
 
 export default function Catalog() {
 
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
-  const [things, setThings] = useState([]);
   const [noResult, setNoResult] = useState(false);
 
-  const location = useLocation();
+  const { things } = useFetchThings();
 
-  const fetchThings = async (category, purpose) => {
-    setLoading(true);
-    setNoResult(false);
+  const params = new URLSearchParams(location.search);
+  const category = params.get('category');
+  const purpose = params.get('purpose');
 
-    try {
-      const result = await thingsService.thingsByFilter(category, purpose);
-      setThings(result);
-      if (result.length === 0) {
-        setNoResult(true);
-      }
-    } catch (err) {
-      console.error('Error fetching filtered things:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { filteredThings } = useThingsByFilter(category, purpose);
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const category = params.get('category');
-    const purpose = params.get('purpose');
-
-    fetchThings(category, purpose);
-  }, [location.search]);
+    if(filteredThings.length === 0 && (category || purpose)){
+      setNoResult(true);
+    } else {
+      setNoResult(false);
+    }
+    setLoading(false)
+  
+  }, [filteredThings, category, purpose]);
 
 
 

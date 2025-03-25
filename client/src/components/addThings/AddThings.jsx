@@ -1,33 +1,17 @@
 import { useNavigate } from "react-router";
 import { Box, Button, FormControl, FormLabel, Input, Textarea, Stack, Heading, } from "@chakra-ui/react";
-import thingsService from "../../services/thingsService.js";
-import { useState } from "react";
+import { useCreateThing } from "../../api/thingsApi.js";
 
 export default function AddThings() {
 
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    title: "",
-    location: "",
-    description: "",
-    imageUrl: "",
-    category: "",
-    purpose: "",
-  });
-
-  const changeHandler = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const { create } = useCreateThing();
 
   const submitAction = async (formData) => {
     const thingData = Object.fromEntries(formData);
     // console.log(thingData);
 
-    await thingsService.addThing(thingData);
+    await create(thingData);
 
     navigate('/catalog');
   }
@@ -47,8 +31,6 @@ export default function AddThings() {
               id="title"
               name="title"
               placeholder="Enter title"
-              value={formData.title}
-              onChange={changeHandler}
             />
           </FormControl>
 
@@ -59,8 +41,6 @@ export default function AddThings() {
               id="location"
               name="location"
               placeholder="Enter location"
-              value={formData.location}
-              onChange={changeHandler}
             />
           </FormControl>
 
@@ -71,8 +51,6 @@ export default function AddThings() {
               id="description"
               name="description"
               placeholder="Enter description"
-              value={formData.description}
-              onChange={changeHandler}
               rows={4}
             />
           </FormControl>
@@ -84,14 +62,12 @@ export default function AddThings() {
               id="imageUrl"
               name="imageUrl"
               placeholder="Enter image URL"
-              value={formData.imageUrl}
-              onChange={changeHandler}
             />
           </FormControl>
 
           <FormControl isRequired>
             <FormLabel htmlFor="category">Category</FormLabel>
-            <select name="category" value={formData.category} onChange={changeHandler}>
+            <select name="category">
               <option value="">--Choose--</option>
               <option value="Electronics">Electronics</option>
               <option value="Clothing & Accessories">Clothing & Accessories</option>
@@ -108,7 +84,7 @@ export default function AddThings() {
 
           <FormControl isRequired>
             <FormLabel htmlFor="purpose">Purpose</FormLabel>
-            <select name="purpose" value={formData.purpose} onChange={changeHandler}>
+            <select name="purpose">
               <option value="">--Choose--</option>
               <option value="Borrowing">For borrowing</option>
               <option value="Giveaway">Giveaway</option>
