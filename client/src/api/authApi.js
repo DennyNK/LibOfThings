@@ -5,6 +5,19 @@ import { UserContext } from "../contexts/UserContext.js";
 
 const baseUrl = 'http://localhost:3030/users';
 
+export const useRegister = () => {
+
+    const register = async (email, password, firstName, city, country) => {
+        const result = await request.post(`${baseUrl}/register`, {email, password, firstName, city, country});
+        return result;
+    }
+
+    return {
+        register
+    }
+
+}
+
 export const useLogin = () => {
 
     const login = async (email, password) => {

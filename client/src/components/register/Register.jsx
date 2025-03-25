@@ -1,50 +1,37 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Box, FormControl, FormLabel, Input, Button, Stack, Heading, FormErrorMessage, Select, Text, Link } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, Input, Button, Stack, Heading, Text, Link } from '@chakra-ui/react';
+import { useRegister } from '../../api/authApi.js';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext.js';
 
 
 export default function Register() {
+
+
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        repeatPassword: '',
-        name: '',
-        city: '',
-        country: '',
-        preferredLanguage: '',
-      });
-    
-      const [errors, setErrors] = useState({});
-      
-      const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-        }));
+    const { register } = useRegister();
+    const { userLoginHandler } = useContext(UserContext);
+
+    const registerHandler = async (formData) => {
+
+      const {email, password, firstName, city, country, preferredLanguage } = Object.fromEntries(formData);
+      const repeatPassword = formData.get('repeatPassword');
+
+      if(password !== repeatPassword){
+        console.log('password mismatch');
+        return
       };
-    
-      const validateForm = () => {
-        let formErrors = {};
-        if (!formData.email) formErrors.email = 'Email is required';
-        if (!formData.password) formErrors.password = 'Password is required';
-        if (formData.password !== formData.repeatPassword) formErrors.repeatPassword = 'Passwords must match';
-        if (!formData.name) formErrors.name = 'Name is required';
-        if (!formData.city) formErrors.city = 'City is required';
-        if (!formData.country) formErrors.country = 'Country is required';
-        if (!formData.preferredLanguage) formErrors.preferredLanguage = 'Preferred Language is required';
-        setErrors(formErrors);
-        return Object.keys(formErrors).length === 0;
-      };
-    
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        if (validateForm()) {
-          // Submit form data (you can handle the submission logic here)
-          console.log('Form Submitted', formData);
-        }
-      };
+
+      const authData = await register(email, password, firstName, city, country, preferredLanguage);
+
+      // eslint-disable-next-line no-unused-vars
+      const {password: _, ...secureAuthData} = authData;
+
+      userLoginHandler(secureAuthData);
+
+      navigate('/');
+
+    }
     
       return (
         <Box maxWidth="400px" mx="auto" mt={10} p={6} borderWidth="1px" borderRadius="lg">
@@ -52,117 +39,74 @@ export default function Register() {
             Register
           </Heading>
     
-          <form onSubmit={handleSubmit}>
+          <form action={registerHandler}>
             <Stack spacing={4}>
-              {/* Email Field */}
-              <FormControl isInvalid={errors.email}>
+              <FormControl >
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input
                   id="email"
                   type="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
                   placeholder="Enter your email"
                 />
-                <FormErrorMessage>{errors.email}</FormErrorMessage>
               </FormControl>
     
-              {/* Password Field */}
-              <FormControl isInvalid={errors.password}>
+
+              <FormControl>
                 <FormLabel htmlFor="password">Password</FormLabel>
                 <Input
                   id="password"
                   type="password"
                   name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
                   placeholder="Enter your password"
                 />
-                <FormErrorMessage>{errors.password}</FormErrorMessage>
               </FormControl>
     
-              {/* Repeat Password Field */}
-              <FormControl isInvalid={errors.repeatPassword}>
+              <FormControl>
                 <FormLabel htmlFor="repeatPassword">Repeat Password</FormLabel>
                 <Input
                   id="repeatPassword"
                   type="password"
                   name="repeatPassword"
-                  value={formData.repeatPassword}
-                  onChange={handleInputChange}
                   placeholder="Repeat your password"
                 />
-                <FormErrorMessage>{errors.repeatPassword}</FormErrorMessage>
               </FormControl>
     
-              {/* Name Field */}
-              <FormControl isInvalid={errors.name}>
-                <FormLabel htmlFor="name">Name</FormLabel>
+              <FormControl>
+                <FormLabel htmlFor="firstName">Name</FormLabel>
                 <Input
-                  id="name"
+                  id="firstName"
                   type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
+                  name="firstName"
                   placeholder="Enter your name"
                 />
-                <FormErrorMessage>{errors.name}</FormErrorMessage>
               </FormControl>
     
-              {/* City Field */}
-              <FormControl isInvalid={errors.city}>
+              <FormControl>
                 <FormLabel htmlFor="city">City</FormLabel>
                 <Input
                   id="city"
                   type="text"
                   name="city"
-                  value={formData.city}
-                  onChange={handleInputChange}
                   placeholder="Enter your city"
                 />
-                <FormErrorMessage>{errors.city}</FormErrorMessage>
               </FormControl>
     
-              {/* Country Field */}
-              <FormControl isInvalid={errors.country}>
+              <FormControl>
                 <FormLabel htmlFor="country">Country</FormLabel>
                 <Input
                   id="country"
                   type="text"
                   name="country"
-                  value={formData.country}
-                  onChange={handleInputChange}
                   placeholder="Enter your country"
                 />
-                <FormErrorMessage>{errors.country}</FormErrorMessage>
               </FormControl>
+
     
-              {/* Preferred Language Field */}
-              <FormControl isInvalid={errors.preferredLanguage}>
-                <FormLabel htmlFor="preferredLanguage">Preferred Language</FormLabel>
-                <Select
-                  id="preferredLanguage"
-                  name="preferredLanguage"
-                  value={formData.preferredLanguage}
-                  onChange={handleInputChange}
-                  placeholder="Select your preferred language"
-                >
-                  <option value="english">English</option>
-                  <option value="spanish">Spanish</option>
-                  <option value="french">French</option>
-                  <option value="german">German</option>
-                  <option value="chinese">Chinese</option>
-                </Select>
-                <FormErrorMessage>{errors.preferredLanguage}</FormErrorMessage>
-              </FormControl>
-    
-              {/* Submit Button */}
               <Button colorScheme="teal" size="lg" type="submit" width="full">
                 Register
               </Button>
     
-              {/* Redirect to Login */}
             <Text fontSize="sm">
                         Have an account?{' '}
                     <Link color="teal.500" onClick={() => navigate('/login')}>
