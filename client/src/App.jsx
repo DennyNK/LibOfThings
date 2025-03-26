@@ -16,6 +16,7 @@ import AuthGuard from './components/guards/AuthGuard.jsx'
 import ThingDetails from './components/thing-details/ThingDetails.jsx'
 import ThingEdit from './components/thing-edit/ThingEdit.jsx'
 import Profile from './components/profile/Profile.jsx'
+import LoggedInGuard from './components/guards/LoggedInGuard.jsx'
 
 
 function App() {
@@ -39,8 +40,10 @@ function App() {
         <Route path='/profile' element={<Profile/>}></Route>
         <Route path='/logout' element={<Logout />} />
       </Route>
-      <Route path='/login' element={<Login/>}></Route>
-      <Route path='/register' element={<Register/>}></Route>
+      <Route element={<LoggedInGuard/>}>
+        <Route path='/login' element={<Login/>}></Route>
+        <Route path='/register' element={<Register/>}></Route>
+      </Route>
 
 
 
