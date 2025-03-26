@@ -1,7 +1,7 @@
 import { Box, Button, Text, Flex, Image, VStack, Tag, TagLabel, TagLeftIcon, HStack } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon, PhoneIcon } from '@chakra-ui/icons';
 import { useDeleteThing, useOneThing } from '../../api/thingsApi.js';
-import { useNavigate, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 
 export default function ThingDetails() {
 
@@ -60,9 +60,11 @@ export default function ThingDetails() {
         </VStack>
 
         <HStack spacing={4} mt={4}>
+          <Link to={`/catalog/${thingId}/edit`}>
           <Button leftIcon={<EditIcon />} colorScheme="blue" >
             Edit
           </Button>
+          </Link>
           <Button leftIcon={<DeleteIcon />} colorScheme="red" onClick={deleteThingHandler}>
             Delete
           </Button>

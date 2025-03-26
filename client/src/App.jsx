@@ -13,7 +13,8 @@ import Search from './components/search/Search.jsx'
 import { UserProvider } from './providers/UserProvider.jsx'
 import Logout from './components/logout/Logout.jsx'
 import AuthGuard from './components/guards/AuthGuard.jsx'
-import ThingDetails from './components/thing details/ThingDetails.jsx'
+import ThingDetails from './components/thing-details/ThingDetails.jsx'
+import ThingEdit from './components/thing-edit/ThingEdit.jsx'
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
       <Route element={<AuthGuard />}>
         <Route path='/add' element={<AddThings/>}></Route>
         <Route path='/catalog/:thingId/details' element={<ThingDetails />}></Route>
+        <Route path='/catalog/:thingId/edit' element={<ThingEdit />}></Route>
         <Route path='/logout' element={<Logout />} />
       </Route>
       <Route path='/login' element={<Login/>}></Route>
