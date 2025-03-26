@@ -88,3 +88,17 @@ export const useThingsByFilter = (category, purpose) => {
     };
 };
 
+export const useDeleteThing = () => {
+
+    const { request } = useAuth()
+
+    const remove = (thingId) => {
+       return request.delete(`${baseUrl}/${thingId}`);
+    }
+
+    return {
+        remove
+    }
+
+}
+
