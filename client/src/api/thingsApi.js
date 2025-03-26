@@ -119,3 +119,30 @@ export const useEditThing = () => {
 
 }
 
+export const useSearchThing = (searchTerm) => {
+    const { request } = useAuth(); 
+    const [foundThings, setFoundThings] = useState([]);
+
+    const searchThings = async () => {
+        if (!searchTerm) {
+            setFoundThings([]);
+            return;
+        }
+
+        try {
+            const response = await request.get(baseUrl); 
+            const filteredThings = response.filter(thing =>
+                thing.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFoundThings(filteredThings); // Set the filtered things in the state
+        } catch (error) {
+            console.error('Error fetching search results:', error);
+        }
+    };
+
+    return {
+        foundThings,
+        searchThings
+    };
+};
+
