@@ -10,7 +10,19 @@ export const useFetchThings = () => {
 
     useEffect(() => {
         request.get(baseUrl)
-        .then(response => setThings(response))
+        .then(response => {
+            if(response.code === 404){
+                setThings([]);
+            } else {
+                setThings(Array.isArray(response) ? response : []);
+              }
+            })
+            .catch(err => {
+                console.log(err);
+                setThings([])
+            }
+
+            )
     }, [])
 
     return {

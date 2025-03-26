@@ -20,15 +20,19 @@ export default function Catalog() {
 
   const { filteredThings } = useThingsByFilter(category, purpose);
 
+  
+
   useEffect(() => {
-    if(filteredThings.length === 0 && (category || purpose)){
+      if(things.length === 0){
+        setNoResult(true)
+      } else if(filteredThings.length === 0 && (category || purpose)){
       setNoResult(true);
     } else {
       setNoResult(false);
     }
     setLoading(false)
   
-  }, [filteredThings, category, purpose]);
+  }, [things, filteredThings, category, purpose]);
 
 
 
@@ -51,7 +55,7 @@ export default function Catalog() {
             </Box>)
             : (<SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
 
-              {things.map(thing => (<CatalogThing key={thing._id} {...thing} />))}
+              {(category || purpose ? filteredThings : things).map(thing => (<CatalogThing key={thing._id} {...thing} />))}
 
             </SimpleGrid>
             )}
