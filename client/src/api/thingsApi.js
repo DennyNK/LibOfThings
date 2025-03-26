@@ -45,14 +45,18 @@ export const useCreateThing = () => {
 
 export const useOneThing = (thingId) => {
     const [thing, setThing] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         request.get(`${baseUrl}/${thingId}`)
-        .then(setThing)
+        .then(response => {
+            setThing(response);
+            setIsLoading(false);
+        })
     },[thingId]);
 
     return{
-        thing
+        thing, isLoading
     }
 
 };
@@ -98,6 +102,19 @@ export const useDeleteThing = () => {
 
     return {
         remove
+    }
+
+};
+
+export const useEditThing = () => {
+    const { request } = useAuth();
+
+    const edit = (thingId, thingData) => {
+       return request.put(`${baseUrl}/${thingId}`, { ...thingData, _id: thingId })
+    } 
+
+    return {
+        edit
     }
 
 }
