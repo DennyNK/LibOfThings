@@ -6,6 +6,7 @@ import request from "../utils/request.js";
 export default function useAuth() {
     const authData = useContext(UserContext);
 
+
     const requestWrapper = (method, url, data, options = {}) => {
         const optionWrapper = {
             ...options,
@@ -14,8 +15,12 @@ export default function useAuth() {
                 ...options.headers
             }
                 }
+
         return request.baseRequest(method, url, data, authData.accessToken ? optionWrapper : options)
     }
+
+   
+    
 
     return {
         ...authData,
