@@ -86,7 +86,7 @@ export default function AddThings() {
             <FormLabel htmlFor="purpose">Purpose</FormLabel>
             <select name="purpose">
               <option value="">--Choose--</option>
-              <option value="Borrowing">For borrowing</option>
+              <option value="For borrowing">For borrowing</option>
               <option value="Giveaway">Giveaway</option>
             </select>
           </FormControl>
