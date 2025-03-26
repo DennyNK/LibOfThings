@@ -2,10 +2,12 @@ import { Box, Button, Text, Flex, Image, VStack, Tag, TagLabel, TagLeftIcon, HSt
 import { EditIcon, DeleteIcon, PhoneIcon } from '@chakra-ui/icons';
 import { useDeleteThing, useOneThing } from '../../api/thingsApi.js';
 import { Link, useNavigate, useParams } from 'react-router';
+import useAuth from '../../hooks/useAuth.js';
 
 export default function ThingDetails() {
 
     const navigate = useNavigate();
+    const { userId } = useAuth();
     const { thingId } = useParams();
     const { thing } = useOneThing(thingId);
     const { remove } = useDeleteThing();
@@ -22,6 +24,7 @@ export default function ThingDetails() {
         navigate('/catalog');
     }
 
+    const isOwner = thing._ownerId === userId;
 
    return (
     <Box p={6} bg="gray.50" borderRadius="md" boxShadow="lg">
@@ -60,17 +63,22 @@ export default function ThingDetails() {
         </VStack>
 
         <HStack spacing={4} mt={4}>
-          <Link to={`/catalog/${thingId}/edit`}>
-          <Button leftIcon={<EditIcon />} colorScheme="blue" >
-            Edit
-          </Button>
-          </Link>
-          <Button leftIcon={<DeleteIcon />} colorScheme="red" onClick={deleteThingHandler}>
-            Delete
-          </Button>
-          <Button leftIcon={<PhoneIcon />} colorScheme="green" >
-            Contact Owner
-          </Button>
+        {isOwner  
+          ? (<><Link to={`/catalog/${thingId}/edit`}>
+            <Button leftIcon={<EditIcon />} colorScheme="blue" >
+              Edit
+            </Button>
+            </Link>
+            <Button leftIcon={<DeleteIcon />} colorScheme="red" onClick={deleteThingHandler}>
+              Delete
+            </Button></>)
+          : (
+            <Button leftIcon={<PhoneIcon />} colorScheme="green" >
+                    Contact Owner
+                  </Button>)
+          }
+
+          
         </HStack>
       </Box>
     </Flex>
