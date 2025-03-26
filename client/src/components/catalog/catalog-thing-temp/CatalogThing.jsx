@@ -1,4 +1,5 @@
 import { Card, Image, CardBody, Stack, Heading, Text, Button} from '@chakra-ui/react'
+import { Link } from 'react-router';
 
 
 export default function CatalogThing({
@@ -14,9 +15,11 @@ export default function CatalogThing({
                                   <Stack spacing={3}>
                                     <Heading size="md" color="teal.600">{title}</Heading>
                                     <Text>{location}</Text>
+                                  <Link to={`/catalog/${_id}/details`}>
                                     <Button colorScheme="teal" size="sm">
                                       Details
                                     </Button>
+                                    </Link>
                                   </Stack>
                                 </CardBody>
                               </Card>
