@@ -1,12 +1,26 @@
 import { Box, Button, Text, Flex, Image, VStack, Tag, TagLabel, TagLeftIcon, HStack } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon, PhoneIcon } from '@chakra-ui/icons';
-import { useOneThing } from '../../api/thingsApi.js';
-import { useParams } from 'react-router';
+import { useDeleteThing, useOneThing } from '../../api/thingsApi.js';
+import { useNavigate, useParams } from 'react-router';
 
 export default function ThingDetails() {
 
+    const navigate = useNavigate();
     const { thingId } = useParams();
     const { thing } = useOneThing(thingId);
+    const { remove } = useDeleteThing();
+
+    const deleteThingHandler = async () => {
+        const hasConfirmed = confirm(`Are you sure you want to delete ${thing.title}?`);
+
+        if(!hasConfirmed){
+            return
+        }
+        
+        await remove(thingId);
+
+        navigate('/catalog');
+    }
 
 
    return (
@@ -49,7 +63,7 @@ export default function ThingDetails() {
           <Button leftIcon={<EditIcon />} colorScheme="blue" >
             Edit
           </Button>
-          <Button leftIcon={<DeleteIcon />} colorScheme="red" >
+          <Button leftIcon={<DeleteIcon />} colorScheme="red" onClick={deleteThingHandler}>
             Delete
           </Button>
           <Button leftIcon={<PhoneIcon />} colorScheme="green" >
