@@ -1,4 +1,4 @@
-import { Box, Button, Text, Flex, Image, VStack, Tag, TagLabel, TagLeftIcon, HStack } from '@chakra-ui/react';
+import { Box, Button, Text, Flex, Image, VStack, Tag, TagLabel, HStack } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon, PhoneIcon } from '@chakra-ui/icons';
 import { useDeleteThing, useOneThing } from '../../api/thingsApi.js';
 import { Link, useNavigate, useParams } from 'react-router';
@@ -7,7 +7,7 @@ import useAuth from '../../hooks/useAuth.js';
 export default function ThingDetails() {
 
     const navigate = useNavigate();
-    const { userId } = useAuth();
+    const { userId, isAuthenticated } = useAuth();
     const { thingId } = useParams();
     const { thing } = useOneThing(thingId);
     const { remove } = useDeleteThing();
@@ -50,7 +50,6 @@ export default function ThingDetails() {
           <Text fontSize="md">{thing.description}</Text>
           <HStack spacing={4}>
             <Tag colorScheme="teal">
-              <TagLeftIcon boxSize="12px" as={PhoneIcon} />
               <TagLabel>{thing.city}</TagLabel>
             </Tag>
             <Tag colorScheme="blue">
@@ -72,7 +71,7 @@ export default function ThingDetails() {
             <Button leftIcon={<DeleteIcon />} colorScheme="red" onClick={deleteThingHandler}>
               Delete
             </Button></>)
-          : (
+          : (isAuthenticated &&
             <Button leftIcon={<PhoneIcon />} colorScheme="green" >
                     Contact Owner
                   </Button>)
