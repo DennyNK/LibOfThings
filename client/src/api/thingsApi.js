@@ -134,7 +134,7 @@ export const useSearchThing = (searchTerm) => {
             const filteredThings = response.filter(thing =>
                 thing.title.toLowerCase().includes(searchTerm.toLowerCase())
             );
-            setFoundThings(filteredThings); // Set the filtered things in the state
+            setFoundThings(filteredThings);
         } catch (error) {
             console.error('Error fetching search results:', error);
         }

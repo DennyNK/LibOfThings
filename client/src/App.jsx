@@ -17,6 +17,7 @@ import ThingDetails from './components/thing-details/ThingDetails.jsx'
 import ThingEdit from './components/thing-edit/ThingEdit.jsx'
 import Profile from './components/profile/Profile.jsx'
 import LoggedInGuard from './components/guards/LoggedInGuard.jsx'
+import Messages from './components/messages/Messages.jsx'
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         <Route path='/catalog/:thingId/details' element={<ThingDetails />}></Route>
         <Route path='/catalog/:thingId/edit' element={<ThingEdit />}></Route>
         <Route path='/profile' element={<Profile/>}></Route>
+        <Route path='/messages' element={<Messages />}></Route>
         <Route path='/logout' element={<Logout />} />
       </Route>
       <Route element={<LoggedInGuard/>}>

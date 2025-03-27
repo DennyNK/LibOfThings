@@ -94,6 +94,17 @@ export default function Header() {
                 </Button>
               </Link>
 
+              <Link to='/messages'>
+                <Button
+                  bg="coral.800"
+                  color="white"
+                  _hover={{ bg: "coral.400" }}
+                  variant="solid"
+                >
+                  Messages
+                </Button>
+              </Link>
+
               <Link to='/logout'>
                 <Button
                   bg="coral.500"
