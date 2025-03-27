@@ -20,7 +20,7 @@ export default function usePersistedState(stateKey, initialState){
         const data = typeof input === 'function' ? input(state) : input;
         const persistedData = JSON.stringify(data);
 
-        localStorage.setItem('auth', persistedData);
+        localStorage.setItem(stateKey, persistedData);
 
         setState(data);
     }
