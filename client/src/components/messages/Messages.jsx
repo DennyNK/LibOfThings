@@ -100,7 +100,7 @@ export default function Messages() {
 
             <Box w="70%" p={6} bg="gray.50" borderRadius="md" boxShadow="lg">
                 <Text fontSize="2xl" fontWeight="bold" mb={4}>
-                    {thing?.title ? `Chat about ${thing.title}` : "Select a conversation"}
+                    {selectedChat ? `Chat about ${getThingTitle(thingId)}` : "Select a conversation"}
                 </Text>
 
                 {selectedChat && (
