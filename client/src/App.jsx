@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router'
+import { Routes, Route, Navigate } from 'react-router'
 
 import './App.css'
 import Footer from './components/footer/Footer.jsx'
@@ -33,6 +33,7 @@ function App() {
       <Route path='/about' element={<About/>}></Route>
       <Route path='/catalog' element={<Catalog/>}></Route>
       <Route path='/search' element={<Search/>}></Route>
+      <Route path='*' element={<Navigate to='/' replace />}></Route>
       <Route element={<AuthGuard />}>
         <Route path='/add' element={<AddThings/>}></Route>
         <Route path='/catalog/:thingId/details' element={<ThingDetails />}></Route>
