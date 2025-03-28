@@ -4,24 +4,18 @@ import { useLocation } from 'react-router';
 import { useMessages, useSendMessage } from '../../api/messagesApi';
 import useAuth from '../../hooks/useAuth';
 import { useOneThing } from '../../api/thingsApi';
+import usePersistedState from "../../hooks/usePersistedState.js";
 
 export default function Messages() {
     const { messages, loading, error, conversations } = useMessages();
     const { sendMessage, sending } = useSendMessage();
     const { userId } = useAuth();
+    const [thingData, setThingData] = usePersistedState('thing', {});
     const [reply, setReply] = useState("");
     const [selectedChat, setSelectedChat] = useState(null);
     
     const location = useLocation();
-    const queryThingId = new URLSearchParams(location.search).get('thingId');
-    const [thingId, setThingId] = useState(queryThingId || localStorage.getItem("thingId"));
-
-    useEffect(() => {
-        if (queryThingId) {
-            localStorage.setItem("thingId", queryThingId);
-            setThingId(queryThingId);
-        }
-    }, [queryThingId]);
+    const thingId = new URLSearchParams(location.search).get('thingId');
 
     const { thing } = useOneThing(thingId); 
 
@@ -41,14 +35,13 @@ export default function Messages() {
 
     useEffect(() => {
         if (thing && thing._id) {
-            localStorage.setItem(`thing-${thing._id}`, JSON.stringify(thing));
+            setThingData(thing)
         }
-    }, [thing]);
+    }, [thing, setThingData]);
 
 
-    const getThingTitle = (thingId) => {
-        const cachedThing = localStorage.getItem(`thing-${thingId}`);
-        return cachedThing ? JSON.parse(cachedThing).title : "Unknown Item";
+    const getThingTitle = () => {
+        return thingData?._id ? thingData.title : "Unknown Item";
     };
 
 
@@ -114,7 +107,7 @@ export default function Messages() {
                             .map((msg, index) => (
                                 <Box key={index} p={4} bg="white" borderRadius="md" boxShadow="sm" width="100%">
                                     <Text fontWeight="bold">
-                                        {msg.senderId === userId ? 'You' : `User ${msg.senderId}`}: {msg.content}
+                                        {msg.senderId === userId ? 'You' : 'Owner'}: {msg.content}
                                     </Text>
                                 </Box>
                             ))}
