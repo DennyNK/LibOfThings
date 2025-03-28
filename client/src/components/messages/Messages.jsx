@@ -1,35 +1,37 @@
 import { useState, useEffect } from "react";
 import { Box, Text, VStack, Spinner, Textarea, Button, HStack } from '@chakra-ui/react';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useMessages, useSendMessage } from '../../api/messagesApi';
 import useAuth from '../../hooks/useAuth';
 import { useOneThing } from '../../api/thingsApi';
 import usePersistedState from "../../hooks/usePersistedState.js";
 
 export default function Messages() {
-    const { messages, loading, error, conversations } = useMessages();
+    const { messages, loading, error, conversations, refetchMessages } = useMessages();
     const { sendMessage, sending } = useSendMessage();
     const { userId } = useAuth();
     const [thingData, setThingData] = usePersistedState('thing', {});
     const [reply, setReply] = useState("");
     const [selectedChat, setSelectedChat] = useState(null);
-    
+
     const location = useLocation();
+    const navigate = useNavigate();
     const thingId = new URLSearchParams(location.search).get('thingId');
 
-    const { thing } = useOneThing(thingId); 
+    const { thing } = useOneThing(thingId);
 
     const sendMessageHandler = async () => {
         if (!reply.trim() || !selectedChat) return;
-    
-        const success = await sendMessage({ 
-            thingId, 
-            recipientId: selectedChat, 
-            content: reply 
+
+        const success = await sendMessage({
+            thingId,
+            recipientId: selectedChat,
+            content: reply
         });
-    
+
         if (success) {
-            setReply(""); 
+            setReply("");
+            refetchMessages();
         }
     };
 
@@ -45,11 +47,13 @@ export default function Messages() {
     };
 
 
-    const handleSelectChat = (user) => {
+    const handleSelectChat = (user, chatThingId) => {
+
         setSelectedChat(user);
+        navigate(`/messages?thingId=${chatThingId}`);
     };
 
-    
+
 
     if (loading) {
         return (
@@ -74,20 +78,21 @@ export default function Messages() {
                 <Text fontSize="xl" fontWeight="bold" mb={4}>Chats</Text>
                 <VStack spacing={2} align="start">
                     {conversations.length > 0 ? (
-                        conversations.map(([user, chatThingId], index) => (
+                        conversations.map((conversation, index) => (
                             <Button
                                 key={index}
-                                variant={selectedChat === user ? "solid" : "outline"}
+                                variant={selectedChat === conversation.user ? "solid" : "outline"}
                                 colorScheme="blue"
                                 width="100%"
-                                onClick={() => handleSelectChat(user)}
+                                onClick={() => handleSelectChat(conversation.user, conversation.thingId)}
                             >
-                                {getThingTitle(chatThingId)}
+                                {getThingTitle(conversation.thingId)}
                             </Button>
                         ))
                     ) : (
                         <Text>No conversations yet</Text>
                     )}
+
                 </VStack>
             </Box>
 
@@ -98,6 +103,7 @@ export default function Messages() {
 
                 {selectedChat && (
                     <VStack spacing={4} align="start" mb={4}>
+                        
                         {messages
                             .filter(
                                 (msg) =>
@@ -107,7 +113,7 @@ export default function Messages() {
                             .map((msg, index) => (
                                 <Box key={index} p={4} bg="white" borderRadius="md" boxShadow="sm" width="100%">
                                     <Text fontWeight="bold">
-                                        {msg.senderId === userId ? 'You' : 'Owner'}: {msg.content}
+                                        {msg.senderId === userId ? 'You' : 'Other'}: {msg.content}
                                     </Text>
                                 </Box>
                             ))}

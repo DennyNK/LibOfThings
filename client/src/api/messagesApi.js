@@ -18,7 +18,6 @@ export const useMessages = () => {
       const response = await request.get(baseUrl);
 
       
-      
       const filteredMessages = Array.isArray(response)
         ? response.filter(msg => msg.senderId === userId || msg.recipientId === userId)
         : [];
@@ -40,15 +39,12 @@ export const useMessages = () => {
 
       const newConversations = Array.from(uniqueConversations.values());
 
-      
-      
-
       setConversations(newConversations);
     
       
     } catch (err) {
       setError(err);
-      console.log("Error fetching messages:", err);
+
     } finally {
       setLoading(false);
     }
@@ -62,7 +58,6 @@ export const useMessages = () => {
 };
 
 export function useSendMessage() {
-    const { refetchMessages } = useMessages();
     const { userId, request } = useAuth();
     const [sending, setSending] = useState(false);
 
@@ -80,8 +75,7 @@ export function useSendMessage() {
             };
 
             await request.post(baseUrl, newMessage);
-            await refetchMessages();
-            return true; 
+            return true;
         } catch (error) {
             console.error("Error sending message:", error);
             return false;
