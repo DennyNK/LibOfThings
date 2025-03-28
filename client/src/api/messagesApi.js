@@ -16,6 +16,8 @@ export const useMessages = () => {
     try {
       setLoading(true);
       const response = await request.get(baseUrl);
+
+      
       
       const filteredMessages = Array.isArray(response)
         ? response.filter(msg => msg.senderId === userId || msg.recipientId === userId)
@@ -23,18 +25,27 @@ export const useMessages = () => {
 
       setMessages(filteredMessages);
 
+
       const uniqueConversations = new Map();
       filteredMessages.forEach((msg) => {
         const otherUser = msg.senderId === userId ? msg.recipientId : msg.senderId;
         const thingId = msg.thingId || null; 
         
+        const key = `${otherUser}-${thingId}`;
 
-        if (!uniqueConversations.has(otherUser)) {
-          uniqueConversations.set(otherUser, thingId);
+        if (!uniqueConversations.has(key)) {
+          uniqueConversations.set(key, { user: otherUser, thingId });
         }
       });
 
-      setConversations([...uniqueConversations.entries()]);
+      const newConversations = Array.from(uniqueConversations.values());
+
+      
+      
+
+      setConversations(newConversations);
+    
+      
     } catch (err) {
       setError(err);
       console.log("Error fetching messages:", err);
@@ -69,7 +80,7 @@ export function useSendMessage() {
             };
 
             await request.post(baseUrl, newMessage);
-            refetchMessages();
+            await refetchMessages();
             return true; 
         } catch (error) {
             console.error("Error sending message:", error);
