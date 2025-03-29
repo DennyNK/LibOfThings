@@ -20,6 +20,12 @@ export default function Messages() {
 
     const { thing } = useOneThing(thingId);
 
+    useEffect(() => {
+        if (location.state?.selectedChat) {
+            setSelectedChat(location.state.selectedChat);
+        }
+    }, [location.state]);
+
     const sendMessageHandler = async () => {
         if (!reply.trim() || !selectedChat) return;
 

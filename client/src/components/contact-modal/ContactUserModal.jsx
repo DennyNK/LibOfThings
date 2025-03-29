@@ -26,8 +26,8 @@ export default function ContactUserModal({ isOpen, onClose, thingId, recipientId
 
     if (success) {
         setMessage(""); 
-        navigate(`/messages?thingId=${thingId}`);
         onClose(); 
+        navigate(`/messages?thingId=${thingId}`, { state: { selectedChat: recipientId } });
     }
     };
 
