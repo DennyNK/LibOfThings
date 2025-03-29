@@ -11,78 +11,74 @@ export const useMessages = () => {
   const [error, setError] = useState(null);
   const [conversations, setConversations] = useState([]);
 
-
   const fetchMessages = useCallback(async () => {
     try {
       setLoading(true);
       const response = await request.get(baseUrl);
 
-      
       const filteredMessages = Array.isArray(response)
         ? response.filter(msg => msg.senderId === userId || msg.recipientId === userId)
         : [];
 
       setMessages(filteredMessages);
 
-
       const uniqueConversations = new Map();
       filteredMessages.forEach((msg) => {
         const otherUser = msg.senderId === userId ? msg.recipientId : msg.senderId;
-        const thingId = msg.thingId || null; 
-        
-        const key = `${otherUser}-${thingId}`;
+        const thingId = msg.thingId || null;
+
+        const key = `${thingId}-${otherUser}`;
+        console.log(key);
 
         if (!uniqueConversations.has(key)) {
           uniqueConversations.set(key, { user: otherUser, thingId });
         }
       });
 
-      const newConversations = Array.from(uniqueConversations.values());
 
+      const newConversations = Array.from(uniqueConversations.values());
       setConversations(newConversations);
-    
-      
+
     } catch (err) {
       setError(err);
-
     } finally {
       setLoading(false);
     }
-  }, [userId]); 
+  }, [userId]);
 
   useEffect(() => {
     fetchMessages();
-  }, [fetchMessages]); 
+  }, [fetchMessages]);
 
   return { messages, setMessages, loading, error, conversations, refetchMessages: fetchMessages };
 };
 
 export function useSendMessage() {
-    const { userId, request } = useAuth();
-    const [sending, setSending] = useState(false);
+  const { userId, request } = useAuth();
+  const [sending, setSending] = useState(false);
 
-    const sendMessage = async ({ thingId, recipientId, content }) => {
-        if (!content.trim() || !recipientId) return;
+  const sendMessage = async ({ thingId, recipientId, content }) => {
+    if (!content.trim() || !recipientId) return;
 
-        setSending(true);
+    setSending(true);
 
-        try {
-            const newMessage = {
-                thingId,
-                senderId: userId,
-                recipientId,
-                content,
-            };
+    try {
+      const newMessage = {
+        thingId,
+        senderId: userId,
+        recipientId,
+        content,
+      };
 
-            await request.post(baseUrl, newMessage);
-            return true;
-        } catch (error) {
-            console.error("Error sending message:", error);
-            return false;
-        } finally {
-            setSending(false);
-        }
-    };
+      await request.post(baseUrl, newMessage);
+      return true;
+    } catch (error) {
+      console.error("Error sending message:", error);
+      return false;
+    } finally {
+      setSending(false);
+    }
+  };
 
-    return { sendMessage, sending };
+  return { sendMessage, sending };
 }

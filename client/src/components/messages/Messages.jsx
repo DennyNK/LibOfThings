@@ -10,7 +10,7 @@ export default function Messages() {
     const { messages, loading, error, conversations, refetchMessages } = useMessages();
     const { sendMessage, sending } = useSendMessage();
     const { userId } = useAuth();
-    const [thingData, setThingData] = usePersistedState('thing', {});
+    const [thingsData, setThingsData] = usePersistedState('things', {});
     const [reply, setReply] = useState("");
     const [selectedChat, setSelectedChat] = useState(null);
 
@@ -36,14 +36,17 @@ export default function Messages() {
     };
 
     useEffect(() => {
-        if (thing && thing._id) {
-            setThingData(thing)
-        }
-    }, [thing, setThingData]);
+    if (thing && thing._id && !thingsData[thing._id]) {
+        setThingsData(prevData => ({
+            ...prevData,
+            [thing._id]: thing
+        }));
+    }
+    }, [thing]); 
 
 
-    const getThingTitle = () => {
-        return thingData?._id ? thingData.title : "Unknown Item";
+    const getThingTitle = (id) => {
+        return thingsData[id]?.title || "Unknown Item";
     };
 
 
@@ -72,6 +75,13 @@ export default function Messages() {
         );
     }
 
+    const filteredMessages = messages.filter((msg) => {
+        return (
+            (msg.senderId === userId && msg.recipientId === selectedChat && msg.thingId === thingId) ||
+            (msg.senderId === selectedChat && msg.recipientId === userId && msg.thingId === thingId)
+        );
+    });
+
     return (
         <HStack align="stretch" spacing={4}>
             <Box w="30%" p={4} bg="white" borderRadius="md" boxShadow="md">
@@ -81,7 +91,7 @@ export default function Messages() {
                         conversations.map((conversation, index) => (
                             <Button
                                 key={index}
-                                variant={selectedChat === conversation.user ? "solid" : "outline"}
+                                variant={selectedChat === conversation.user && thingId === conversation.thingId ? "solid" : "outline"}
                                 colorScheme="blue"
                                 width="100%"
                                 onClick={() => handleSelectChat(conversation.user, conversation.thingId)}
@@ -104,19 +114,13 @@ export default function Messages() {
                 {selectedChat && (
                     <VStack spacing={4} align="start" mb={4}>
                         
-                        {messages
-                            .filter(
-                                (msg) =>
-                                    (msg.senderId === userId && msg.recipientId === selectedChat) ||
-                                    (msg.senderId === selectedChat && msg.recipientId === userId)
-                            )
-                            .map((msg, index) => (
-                                <Box key={index} p={4} bg="white" borderRadius="md" boxShadow="sm" width="100%">
-                                    <Text fontWeight="bold">
-                                        {msg.senderId === userId ? 'You' : 'Other'}: {msg.content}
-                                    </Text>
-                                </Box>
-                            ))}
+                            {filteredMessages.map((msg, index) => (
+                            <Box key={index} p={4} bg="white" borderRadius="md" boxShadow="sm" width="100%">
+                                <Text fontWeight="bold">
+                                    {msg.senderId === userId ? 'You' : 'Other'}: {msg.content}
+                                </Text>
+                            </Box>
+                        ))}
 
                         <Textarea
                             value={reply}
