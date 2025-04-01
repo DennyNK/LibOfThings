@@ -14,10 +14,10 @@ export default function Profile() {
 
    return (
     <Box p={6} bg="gray.50" borderRadius="md" boxShadow="lg">
-        <Text fontSize="2xl" fontWeight="bold" mb={4}>{email}&apos;s Profile</Text>
+        <Text fontSize="2xl" fontWeight="bold" mb={4} color="coral.700">{email}&apos;s Profile</Text>
 
         <VStack spacing={6} align="stretch">
-            <Text fontSize="xl" fontWeight="semibold">Your Things</Text>
+            <Text fontSize="xl" fontWeight="semibold" color="coral.500">Your Things</Text>
 
             <Grid templateColumns="repeat(3, 1fr)" gap={6}>
                 {userThings.length > 0 ? (
@@ -39,14 +39,14 @@ export default function Profile() {
 
 
                             <Link to={`/catalog/${thing._id}/details`}>
-                                <Button size="sm" colorScheme="blue" mt={4}>
+                                <Button size="sm" colorScheme="purple" mt={4}>
                                     Details
                                 </Button>
                             </Link>
                         </Box>
                     ))
                 ) : (
-                    <Text>No things added yet. 
+                    <Text color="coral.500">No things added yet. 
                         <Link to='/add'>
                         <ChakraLink color="purple.500" fontWeight="bold" ml={2}>
                         Add something new!
