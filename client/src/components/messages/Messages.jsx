@@ -93,14 +93,14 @@ export default function Messages() {
     return (
         <HStack align="stretch" spacing={4}>
             <Box w="30%" p={4} bg="white" borderRadius="md" boxShadow="md">
-                <Text fontSize="xl" fontWeight="bold" mb={4}>Chats</Text>
+                <Text fontSize="xl" fontWeight="bold" mb={4} color="coral">Chats</Text>
                 <VStack spacing={2} align="start">
                     {conversations.length > 0 ? (
                         conversations.map((conversation, index) => (
                             <Button
                                 key={index}
                                 variant={selectedChat === conversation.user && thingId === conversation.thingId ? "solid" : "outline"}
-                                colorScheme="blue"
+                                colorScheme="peach"
                                 width="100%"
                                 onClick={() => handleSelectChat(conversation.user, conversation.thingId)}
                             >
@@ -115,7 +115,7 @@ export default function Messages() {
             </Box>
 
             <Box w="70%" p={6} bg="gray.50" borderRadius="md" boxShadow="lg">
-                <Text fontSize="2xl" fontWeight="bold" mb={4}>
+                <Text fontSize="2xl" fontWeight="bold" mb={4} color="coral">
                     {selectedChat ? `Chat about ${getThingTitle(thingId)}` : "Select a conversation"}
                 </Text>
 
@@ -124,7 +124,7 @@ export default function Messages() {
                         
                             {filteredMessages.map((msg, index) => (
                             <Box key={index} p={4} bg="white" borderRadius="md" boxShadow="sm" width="100%">
-                                <Text fontWeight="bold">
+                                <Text fontWeight="bold" color="gray.500">
                                     {msg.senderId === userId ? 'You' : 'Other'}: {msg.content}
                                 </Text>
                             </Box>
@@ -137,7 +137,7 @@ export default function Messages() {
                             size="lg"
                             mb={4}
                         />
-                        <Button colorScheme="blue" onClick={sendMessageHandler} isLoading={sending}>
+                        <Button colorScheme="purple" onClick={sendMessageHandler} isLoading={sending}>
                             Send Message
                         </Button>
                     </VStack>
