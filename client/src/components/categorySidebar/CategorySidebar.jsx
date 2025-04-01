@@ -58,8 +58,8 @@ export default function CategorySidebar() {
   }
 
   return (
-    <Box width={{ base: "full", md: "250px" }} bg="gray.100" p={4} boxShadow="md">
-      <VStack align="start" spacing={4}>
+    <Box width={{ base: "full", md: "250px" }} bg="gray.50" p={4} boxShadow="md">
+      <VStack align="start" spacing={4} color="purple.700">
         <Text fontSize="xl" fontWeight="bold" mb={2}>Categories</Text>
 
         <RadioGroup onChange={categoryChangeHandler} value={selectedCategory}>
@@ -85,7 +85,7 @@ export default function CategorySidebar() {
           ))}
         </RadioGroup>
 
-        <Button onClick={clearFilterHandler}>Clear filters</Button>
+        <Button onClick={clearFilterHandler} colorScheme="purple">Clear filters</Button>
       </VStack>
     </Box>
   );
