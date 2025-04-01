@@ -17,49 +17,74 @@ export default function Search() {
     }
 
     return (
-        <Flex>
 
-            <Input
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder='Search for things...'
-            />
-            <IconButton
-                icon={<SearchIcon />}
-                aria-label="Search"
-                onClick={searchHandler}
-            />
+        <Box px={6} py={10} bg="gray.50">
 
-           <Box mt={4}>
-           {isSearched ? (
+            <Flex direction="column" align="center" mb={8}>
+                <Text fontSize="2xl" fontWeight="bold" color="purple.600" mb={4}>
+                    Search for Items
+                </Text>
+                <Flex w="full" maxW="400px" align="center">
+                    <Input
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search for things..."
+                        size="md"
+                        borderRadius="md"
+                    />
+                    <IconButton
+                        icon={<SearchIcon />}
+                        aria-label="Search"
+                        onClick={searchHandler}
+                        ml={2}
+                        size="md"
+                        colorScheme="purple"
+                    />
+                </Flex>
+            </Flex>
+
+
+            <Box mt={6}>
+                {isSearched ? (
                     foundThings.length > 0 ? (
-                        foundThings.map((thing) => (
-                            <Box
-                                key={thing._id}
-                                bg="white"
-                                p={4}
-                                borderRadius="md"
-                                boxShadow="sm"
-                                _hover={{ boxShadow: 'md' }}
-                                cursor="pointer"
-                            >
-                                <Image src={thing.imageUrl} alt={thing.title} borderRadius="md" />
-                                <Text fontWeight="bold" mt={4} noOfLines={1}>{thing.title}</Text>
-                                <Link to={`/catalog/${thing._id}/details`}>
-                                    <Button size="sm" colorScheme="blue" mt={4}>
-                                        Details
-                                    </Button>
-                                </Link>
-                            </Box>
-                        ))
+                        <Flex wrap="wrap" spacing={4} justify="center">
+                            {foundThings.map((thing) => (
+                                <Box
+                                    key={thing._id}
+                                    bg="white"
+                                    p={4}
+                                    borderRadius="md"
+                                    boxShadow="sm"
+                                    _hover={{ boxShadow: 'md' }}
+                                    cursor="pointer"
+                                    transition="all 0.3s ease"
+                                    maxW="320px"
+                                    w="full"
+                                    textAlign="center"
+                                >
+                                    <Image 
+                                    src={thing.imageUrl} 
+                                    alt={thing.title} 
+                                    borderRadius="md" 
+                                    objectFit="cover" 
+                                    width="100%" 
+                                    height="200px" 
+                                    />
+                                    <Text fontWeight="bold" mt={4} noOfLines={1}>{thing.title}</Text>
+                                    <Link to={`/catalog/${thing._id}/details`}>
+                                        <Button size="sm" colorScheme="purple" mt={4}>
+                                            Details
+                                        </Button>
+                                    </Link>
+                                </Box>
+                            ))}
+                        </Flex>
                     ) : (
                         <Text>No results found</Text>
                     )
-                ) : null} 
-
+                ) : null}
             </Box>
+        </Box>
 
-
-        </Flex>
     );
 }
