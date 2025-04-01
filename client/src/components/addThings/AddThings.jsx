@@ -18,7 +18,7 @@ export default function AddThings() {
 
   return (
     <Box px={6} py={10} bg="gray.100">
-      <Heading as="h2" size="lg" mb={4} textAlign="center" color="teal.500">
+      <Heading as="h2" size="lg" mb={4} textAlign="center" color="purple.500">
         Add New Thing
       </Heading>
 
@@ -92,7 +92,7 @@ export default function AddThings() {
           </FormControl>
 
 
-          <Button colorScheme="teal" type="submit" size="lg" mt={4}>
+          <Button colorScheme="purple" type="submit" size="lg" mt={4}>
             Add Item
           </Button>
         </Stack>
