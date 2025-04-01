@@ -47,11 +47,11 @@ export default function Catalog() {
 
         {loading
           ? (<Box display="flex" justifyContent="center" alignItems="center" height="100px" width="100%">
-            <Spinner size="xl" color="teal.500" />
+            <Spinner size="xl" color="purple.500" />
           </Box>)
           : noResult
             ? (<Box display="flex" justifyContent="center" alignItems="center" height="100px" width="100%">
-              <Text fontSize="xl" color="gray.500">No results found</Text>
+              <Text fontSize="xl" color="purple.600">No results found</Text>
             </Box>)
             : (<SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
 
