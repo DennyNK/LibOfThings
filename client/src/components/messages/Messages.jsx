@@ -48,6 +48,7 @@ export default function Messages() {
             [thing._id]: thing
         }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [thing]); 
 
 
@@ -86,7 +87,8 @@ export default function Messages() {
             (msg.senderId === userId && msg.recipientId === selectedChat && msg.thingId === thingId) ||
             (msg.senderId === selectedChat && msg.recipientId === userId && msg.thingId === thingId)
         );
-    });
+    })
+    .sort((a, b) => new Date(b._createdOn) - new Date(a._createdOn));
 
     return (
         <HStack align="stretch" spacing={4}>
