@@ -43,17 +43,17 @@ export default function ThingDetails() {
                 </Box>
 
                 <Box flex="2">
-                    <Text fontSize="2xl" fontWeight="bold" mb={2}>
+                    <Text fontSize="2xl" fontWeight="bold" mb={2} color='purple.600'>
                         {thing.title}
                     </Text>
 
                     <VStack align="start" spacing={2} mb={4}>
-                        <Text fontSize="md">{thing.description}</Text>
+                        <Text fontSize="md" color="coral.800">{thing.description}</Text>
                         <HStack spacing={4}>
-                            <Tag colorScheme="teal">
+                            <Tag colorScheme="purple">
                                 <TagLabel>{thing.location}</TagLabel>
                             </Tag>
-                            <Tag colorScheme="blue">
+                            <Tag colorScheme="coral">
                                 <TagLabel>{thing.category}</TagLabel>
                             </Tag>
                             <Tag colorScheme="purple">
@@ -76,7 +76,7 @@ export default function ThingDetails() {
                             </>
                         ) : (
                             isAuthenticated && (
-                                <Button leftIcon={<PhoneIcon />} colorScheme="green" onClick={onOpen}>
+                                <Button leftIcon={<PhoneIcon />} colorScheme="purple" onClick={onOpen}>
                                     Contact Owner
                                 </Button>
                             )
