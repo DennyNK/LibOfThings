@@ -9,7 +9,7 @@ export default function Register() {
 
 
     const navigate = useNavigate();
-    const { register } = useRegister();
+    const { register, error } = useRegister();
     const { userLoginHandler } = useContext(UserContext);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -51,7 +51,12 @@ export default function Register() {
           </Heading>
 
 
-          {errorMessage && <Text color="red.500">{errorMessage}</Text>}
+          
+          {(error || errorMessage) && (
+            <Text color="red.500" textAlign="center" mt={4}>
+              {error || errorMessage}
+            </Text>
+          )}
 
     
           <form action={registerHandler}>

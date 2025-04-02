@@ -6,42 +6,46 @@ import { UserContext } from "../contexts/UserContext.js";
 const baseUrl = 'http://localhost:3030/users';
 
 export const useRegister = () => {
-    try {
+
+        const [error, setError] = useState(null); 
+    
         const register = async (email, password, firstName, city, country) => {
-            const result = await request.post(`${baseUrl}/register`, { email, password, firstName, city, country });
+            try { const result = await request.post(`${baseUrl}/register`, { email, password, firstName, city, country });
             return result;
         }
-
-        return {
-            register
+            catch (err) {
+                console.error(err);
+                setError('Registration failed. Please try again.')
+            }
+        
         }
-    }
-    catch (err) {
-        console.error("Registration failed:", err);
-        throw err;
+    
+    return {
+        register,
+        error
     }
 
 }
 
 export const useLogin = () => {
 
-    try {
+    const [error, setError] = useState(null);
+
+    
         const login = async (email, password) => {
-            const result = await request.post(`${baseUrl}/login`, { email, password });
+            try { const result = await request.post(`${baseUrl}/login`, { email, password });
 
-            return result;
+            return result;}
+            catch (err) {
+                console.log(err);
+                setError('Login failed. Please try again.')
+            }
         }
-        return {
-            login
-        }
+        
+    return {
+        login,
+        error
     }
-    catch (err) {
-        console.error("Login failed:", err);
-        throw err;
-    }
-
-
-
 };
 
 export const useLogout = () => {
@@ -62,7 +66,7 @@ export const useLogout = () => {
                 await request.get(`${baseUrl}/logout`, null, options);
                 userLogoutHandler();
             } catch (err) {
-                console.error("Logout failed:", err);
+                console.log(err);
                 setError("Failed to log out. Please try again.");
             }
         };

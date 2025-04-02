@@ -7,7 +7,7 @@ import { UserContext } from '../../contexts/UserContext.js';
 export default function Login() {
 
     const navigate = useNavigate();
-    const { login } = useLogin();
+    const { login, error } = useLogin();
     const { userLoginHandler } = useContext(UserContext);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -50,7 +50,11 @@ export default function Login() {
           Login
         </Text>
   
-        {errorMessage && <Text color="red.500">{errorMessage}</Text>}
+        {(error || errorMessage) && (
+            <Text color="red.500" textAlign="center" mt={4}>
+              {error || errorMessage}
+            </Text>
+          )}
 
         <Box as="form" action={loginAction} width="100%">
 
