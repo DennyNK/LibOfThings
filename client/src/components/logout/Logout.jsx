@@ -1,12 +1,17 @@
 import { Navigate } from "react-router";
-import { useLogout } from "../../api/authApi.js"
+import { useLogout } from "../../api/authApi.js";
+import { Box, Text } from "@chakra-ui/react";
 
 export default function Logout() {
- 
-    
-    const { isLoggedOut } = useLogout();
+    const { isLoggedOut, error } = useLogout();
 
-    return isLoggedOut
-    ? <Navigate to='/' />
-    : null
+    if (isLoggedOut) {
+        return <Navigate to="/" />;
+    }
+
+    return error ? (
+        <Box p={4} bg="red.100" borderRadius="md" textAlign="center">
+            <Text color="red.500">{error}</Text>
+        </Box>
+    ) : null;
 }
