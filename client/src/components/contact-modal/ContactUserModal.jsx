@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Textarea } from '@chakra-ui/react';
+import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Textarea, Text } from '@chakra-ui/react';
 import { useOneThing } from "../../api/thingsApi";
 import { useNavigate } from "react-router";
 import { useSendMessage } from "../../api/messagesApi.js";
@@ -9,7 +9,7 @@ export default function ContactUserModal({ isOpen, onClose, thingId, recipientId
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
     const { sendMessage, sending } = useSendMessage();
-    const { thing } = useOneThing(thingId); 
+    const { thing, error } = useOneThing(thingId); 
 
     useEffect(() => {
         if (!thing) return; 
@@ -45,6 +45,11 @@ export default function ContactUserModal({ isOpen, onClose, thingId, recipientId
                         mb={4}
                     />
                 </ModalBody>
+                {error && (
+                            <Text color="red.500" textAlign="center" mt={4}>
+                              {error}
+                            </Text>
+                          )}
                 <ModalFooter>
                     <Button
                         colorScheme="blue"

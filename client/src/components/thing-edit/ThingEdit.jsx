@@ -12,7 +12,7 @@ export default function ThingEdit() {
     const { userId } = useAuth();
     const { thingId } = useParams();
     const { thing, isLoading } = useOneThing(thingId);
-    const { edit } = useEditThing();
+    const { edit, error } = useEditThing();
     
 
     const formAction = async (formData) => {
@@ -116,6 +116,12 @@ export default function ThingEdit() {
                 placeholder="Enter the image URL"
             />
         </FormControl>
+
+        {error && (
+            <Text color="red.500" textAlign="center" mt={4}>
+              {error}
+            </Text>
+          )}
 
         <HStack spacing={4} mt={6}>
             <Button type="submit" colorScheme="blue">

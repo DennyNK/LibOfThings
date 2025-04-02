@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router";
-import { Box, Button, FormControl, FormLabel, Input, Textarea, Stack, Heading, } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Input, Textarea, Stack, Heading, Text} from "@chakra-ui/react";
 import { useCreateThing } from "../../api/thingsApi.js";
 
 export default function AddThings() {
 
   const navigate = useNavigate();
-  const { create } = useCreateThing();
+  const { create, error } = useCreateThing();
 
   const submitAction = async (formData) => {
     const thingData = Object.fromEntries(formData);
-    // console.log(thingData);
+
 
     await create(thingData);
 
@@ -17,6 +17,9 @@ export default function AddThings() {
   }
 
   return (
+
+
+
     <Box px={6} py={10} bg="gray.100">
       <Heading as="h2" size="lg" mb={4} textAlign="center" color="purple.500">
         Add New Thing
@@ -91,6 +94,11 @@ export default function AddThings() {
             </select>
           </FormControl>
 
+          {error && (
+            <Text color="red.500" textAlign="center" mt={4}>
+              {error}
+            </Text>
+          )}
 
           <Button colorScheme="purple" type="submit" size="lg" mt={4}>
             Add Item

@@ -12,13 +12,13 @@ export default function Catalog() {
   const [loading, setLoading] = useState(true);
   const [noResult, setNoResult] = useState(false);
 
-  const { things } = useFetchThings();
+  const { things, error: fetchThingsError} = useFetchThings();
 
   const params = new URLSearchParams(location.search);
   const category = params.get('category');
   const purpose = params.get('purpose');
 
-  const { filteredThings } = useThingsByFilter(category, purpose);
+  const { filteredThings, error: filterThingsError } = useThingsByFilter(category, purpose);
 
   
 
@@ -34,7 +34,7 @@ export default function Catalog() {
   
   }, [things, filteredThings, category, purpose]);
 
-
+  const error = fetchThingsError || filterThingsError;
 
   return (
 
@@ -49,16 +49,18 @@ export default function Catalog() {
           ? (<Box display="flex" justifyContent="center" alignItems="center" height="100px" width="100%">
             <Spinner size="xl" color="purple.500" />
           </Box>)
-          : noResult
+          : error
             ? (<Box display="flex" justifyContent="center" alignItems="center" height="100px" width="100%">
-              <Text fontSize="xl" color="purple.600">No results found</Text>
+              <Text fontSize="xl" color="red.500">{error}</Text>
             </Box>)
-            : (<SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-
-              {(category || purpose ? filteredThings : things).map(thing => (<CatalogThing key={thing._id} {...thing} />))}
-
-            </SimpleGrid>
-            )}
+            : noResult
+              ? (<Box display="flex" justifyContent="center" alignItems="center" height="100px" width="100%">
+                <Text fontSize="xl" color="purple.600">No results found</Text>
+              </Box>)
+              : (<SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+                {(category || purpose ? filteredThings : things).map(thing => (<CatalogThing key={thing._id} {...thing} />))}
+              </SimpleGrid>
+              )}
 
       </Flex>
     </Box>

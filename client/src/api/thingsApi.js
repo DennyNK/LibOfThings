@@ -7,56 +7,82 @@ const baseUrl = 'http://localhost:3030/data/things';
 export const useFetchThings = () => {
 
     const [things, setThings] = useState([]);
+    const [error, setError] = useState(null); 
 
     useEffect(() => {
-        request.get(baseUrl)
-        .then(response => {
-            if(response.code === 404){
-                setThings([]);
-            } else {
-                setThings(Array.isArray(response) ? response : []);
-              }
-            })
-            .catch(err => {
-                console.log(err);
-                setThings([])
-            }
+        const fetchThings = async () => {
+            try {
+                const response = await request.get(baseUrl);
 
-            )
-    }, [])
+                if (response.code === 404) {
+                    setThings([]); 
+                } else {
+                    setThings(Array.isArray(response) ? response : []); 
+                }
+            } catch (err) {
+                console.log(err);
+                setError("Failed to fetch things. Please try again later."); 
+                setThings([]); 
+            }
+        };
+
+        fetchThings(); 
+
+    }, []);
 
     return {
-        things
+        things,
+        error
     }
 
 };
 
 export const useCreateThing = () => {
 
-    const { request } = useAuth();
+    const { request } = useAuth();  
+    const [error, setError] = useState(null);  
 
-    const create = (thingData) => request.post(baseUrl, thingData);
+    const create = async (thingData) => {
+        try {
+            const result = await request.post(baseUrl, thingData); 
+            return result; 
+        } catch (err) {
+            console.log(err); 
+            setError("Failed to create the item. Please try again later."); 
+   
+        }
+    };
 
     return {
-        create
-    }
+        create,
+        error,  
+    };
 
 };
 
 export const useOneThing = (thingId) => {
     const [thing, setThing] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null); 
 
     useEffect(() => {
-        request.get(`${baseUrl}/${thingId}`)
-        .then(response => {
-            setThing(response);
-            setIsLoading(false);
-        })
+        const fetchThing = async () => {
+            try {
+                const response = await request.get(`${baseUrl}/${thingId}`);
+                setThing(response);
+                setIsLoading(false);
+            } catch (err) {
+                console.log(err);
+                setError("Failed to fetch the item. Please try again later.");
+                setIsLoading(false);
+            }
+        };
+
+        fetchThing();
     },[thingId]);
 
     return{
-        thing, isLoading
+        thing, isLoading, error
     }
 
 };
@@ -64,6 +90,7 @@ export const useOneThing = (thingId) => {
 export const useThingsByFilter = (category, purpose) => {
 
     const [filteredThings, setFilteredThings] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchThings = async () => {
@@ -79,8 +106,9 @@ export const useThingsByFilter = (category, purpose) => {
             });
     
             setFilteredThings(filtered);
-          } catch (error) {
-            console.error("Error fetching filtered things:", error);
+          } catch (err) {
+            console.log(err);
+            setError("Failed to fetch things. Please try again later.")
           }
         };
     
@@ -88,7 +116,8 @@ export const useThingsByFilter = (category, purpose) => {
       }, [category, purpose]); 
     
       return { 
-        filteredThings 
+        filteredThings,
+        error
     };
 };
 
@@ -108,13 +137,23 @@ export const useDeleteThing = () => {
 
 export const useEditThing = () => {
     const { request } = useAuth();
+    const [error, setError] = useState(null);
 
-    const edit = (thingId, thingData) => {
-       return request.put(`${baseUrl}/${thingId}`, { ...thingData, _id: thingId })
-    } 
-
+    
+        const edit = async (thingId, thingData) => {
+            
+            try {
+                const result = await request.put(`${baseUrl}/${thingId}`, { ...thingData, _id: thingId })
+                return result }
+            catch(err){
+                console.log(err);
+                setError('Failed to edit. Please try again');
+            }
+         } 
+    
     return {
-        edit
+        edit,
+        error
     }
 
 }
@@ -122,6 +161,7 @@ export const useEditThing = () => {
 export const useSearchThing = (searchTerm) => {
     const { request } = useAuth(); 
     const [foundThings, setFoundThings] = useState([]);
+    const [error, setError] = useState(null);
 
     const searchThings = async () => {
         if (!searchTerm) {
@@ -136,13 +176,15 @@ export const useSearchThing = (searchTerm) => {
             );
             setFoundThings(filteredThings);
         } catch (error) {
-            console.error('Error fetching search results:', error);
+            console.log(error);
+            setError('Failed to search. Please try again');
         }
     };
 
     return {
         foundThings,
-        searchThings
+        searchThings,
+        error
     };
 };
 

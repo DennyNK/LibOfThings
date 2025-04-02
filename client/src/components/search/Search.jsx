@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 export default function Search() {
 
     const [searchTerm, setSearchTerm] = useState('');
-    const { foundThings, searchThings } = useSearchThing(searchTerm);
+    const { foundThings, searchThings, error } = useSearchThing(searchTerm);
     const [isSearched, setIsSearched] = useState(false);
 
 
@@ -43,6 +43,11 @@ export default function Search() {
                 </Flex>
             </Flex>
 
+            {error && (
+            <Text color="red.500" textAlign="center" mt={4}>
+              {error}
+            </Text>
+          )}
 
             <Box mt={6}>
                 {isSearched ? (
