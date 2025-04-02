@@ -35,7 +35,7 @@ export default function Register() {
     
       return (
         <Box maxWidth="400px" mx="auto" mt={10} p={6} borderWidth="1px" borderRadius="lg">
-          <Heading as="h2" size="lg" textAlign="center" mb={6}>
+          <Heading as="h2" size="lg" textAlign="center" mb={6} color="purple.500">
             Register
           </Heading>
     
@@ -103,13 +103,13 @@ export default function Register() {
               </FormControl>
 
     
-              <Button colorScheme="teal" size="lg" type="submit" width="full">
+              <Button colorScheme="purple" size="lg" type="submit" width="full">
                 Register
               </Button>
     
             <Text fontSize="sm">
                         Have an account?{' '}
-                    <Link color="teal.500" onClick={() => navigate('/login')}>
+                    <Link color="coral.800" onClick={() => navigate('/login')}>
                           Login here
                     </Link>
             </Text>

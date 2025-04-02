@@ -40,7 +40,7 @@ export default function Login() {
         flexDirection="column"
         alignItems="center"
       >
-        <Text fontSize="2xl" fontWeight="bold" color="teal.500" mb={6}>
+        <Text fontSize="2xl" fontWeight="bold" color="purple.500" mb={6}>
           Login
         </Text>
   
@@ -61,10 +61,10 @@ export default function Login() {
 
           <Button
             type="submit"
-            colorScheme="teal"
+            colorScheme="purple"
             width="full"
             mb={4}
-            _hover={{ bg: 'teal.600' }}
+            _hover={{ bg: 'purple.500' }}
             className="btn submit" 
             disabled={isPending}
           >
@@ -75,7 +75,7 @@ export default function Login() {
 
         <Text fontSize="sm">
           No account?{' '}
-          <Link color="teal.500" onClick={() => navigate('/register')}>
+          <Link color="coral.800" onClick={() => navigate('/register')}>
             Register here
           </Link>
         </Text>
