@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import { Box, FormControl, FormLabel, Input, Button, Stack, Heading, Text, Link } from '@chakra-ui/react';
 import { useRegister } from '../../api/authApi.js';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext.js';
 
 
@@ -11,14 +11,21 @@ export default function Register() {
     const navigate = useNavigate();
     const { register } = useRegister();
     const { userLoginHandler } = useContext(UserContext);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const registerHandler = async (formData) => {
 
-      const {email, password, firstName, city, country, preferredLanguage } = Object.fromEntries(formData);
+     try {const {email, password, firstName, city, country, preferredLanguage } = Object.fromEntries(formData);
       const repeatPassword = formData.get('repeatPassword');
+
+      if (!email || !password || !repeatPassword || !firstName || !city || !country) {
+        setErrorMessage("All fields are required!");
+        return;
+      }
 
       if(password !== repeatPassword){
         console.log('password mismatch');
+        setErrorMessage("Passwords do not match!")
         return
       };
 
@@ -29,7 +36,11 @@ export default function Register() {
 
       userLoginHandler(secureAuthData);
 
-      navigate('/');
+      navigate('/');}
+      catch(err){
+        console.log(err);
+        setErrorMessage('Registration failed, please try again')
+      }
 
     }
     
@@ -38,6 +49,10 @@ export default function Register() {
           <Heading as="h2" size="lg" textAlign="center" mb={6} color="purple.500">
             Register
           </Heading>
+
+
+          {errorMessage && <Text color="red.500">{errorMessage}</Text>}
+
     
           <form action={registerHandler}>
             <Stack spacing={4}>

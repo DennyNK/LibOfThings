@@ -6,7 +6,7 @@ import { UserContext } from "../contexts/UserContext.js";
 const baseUrl = 'http://localhost:3030/users';
 
 export const useRegister = () => {
-
+    try{
     const register = async (email, password, firstName, city, country) => {
         const result = await request.post(`${baseUrl}/register`, {email, password, firstName, city, country});
         return result;
@@ -14,6 +14,10 @@ export const useRegister = () => {
 
     return {
         register
+    }}
+    catch(err){
+        console.error("Registration failed:", err);
+        throw err;
     }
 
 }
