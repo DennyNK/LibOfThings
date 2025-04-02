@@ -1,18 +1,20 @@
 import { Box, FormControl, FormLabel, Input, Button, Text, Link, } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { useLogin } from '../../api/authApi.js';
-import { useActionState, useContext } from 'react';
+import { useActionState, useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext.js';
 
 export default function Login() {
 
     const navigate = useNavigate();
     const { login } = useLogin();
-    const { userLoginHandler } = useContext(UserContext)
+    const { userLoginHandler } = useContext(UserContext);
+    const [errorMessage, setErrorMessage] = useState("");
 
 
     const loginHandler = async (_, formData) => {
-        const values = Object.fromEntries(formData);
+      try { const values = Object.fromEntries(formData);
+        
 
         const authData = await login(values.email, values.password)
 
@@ -20,7 +22,11 @@ export default function Login() {
 
         navigate('/catalog');
         
-        return values;
+        return values;}
+        catch(err){
+          console.log(err);
+          setErrorMessage('Login failed, please try again')
+        }
     };
 
     // eslint-disable-next-line no-unused-vars
@@ -44,6 +50,7 @@ export default function Login() {
           Login
         </Text>
   
+        {errorMessage && <Text color="red.500">{errorMessage}</Text>}
 
         <Box as="form" action={loginAction} width="100%">
 
